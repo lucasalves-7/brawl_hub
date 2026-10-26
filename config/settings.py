@@ -10,6 +10,15 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Carrega as variáveis do .env (arquivo local, fora do controle de versão).
+# python-dotenv é opcional: se não estiver instalado, usamos o ambiente do SO.
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(BASE_DIR / ".env")
+except ImportError:
+    pass
+
 # ---------------------------------------------------------------- Segurança --
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-insecure-key-troque-em-producao")
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
@@ -29,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Apps do Brawl Hub
     "apps.core",
+    "apps.players",
 ]
 
 MIDDLEWARE = [
@@ -86,6 +96,16 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# ---------------------------------------------------------------- Cache ----
+# Usado por services/cache.py para evitar novas consultas a cada interação.
+# A duração (TTL) varia por tipo de dado (ver services/cache.py).
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "brawl-hub",
+    }
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

@@ -1,0 +1,60 @@
+"""
+Geração de avatares originais para Brawlers.
+
+A API da Supercell devolve apenas IDs e nomes — NÃO fornece URLs de imagem.
+Para manter o Brawl Hub com identidade própria (e não depender de artes da
+Supercell), cada Brawler recebe um avatar original gerado aqui: um ladrilho
+com monograma e uma cor derivada de forma determinística do seu nome.
+
+Assim, qualquer um dos 100+ Brawlers ganha um retrato consistente e próprio.
+"""
+from __future__ import annotations
+
+import re
+from urllib.parse import quote
+
+_GLYPH_FONT = "Lilita One, 'Arial Black', sans-serif"
+
+
+def initials(name: str | None) -> str:
+    """Ex.: 'SHELLY' -> 'SH', 'MR. P' -> 'MP', '8-BIT' -> '8B'."""
+    parts = [p for p in re.split(r"[^A-Za-z0-9]+", (name or "").upper()) if p]
+    if not parts:
+        return "?"
+    if len(parts) == 1:
+        return parts[0][:2]
+    return parts[0][0] + parts[1][0]
+
+
+def _hue(name: str) -> int:
+    """Cor estável por nome (mesmo Brawler => sempre a mesma cor)."""
+    return sum(ord(c) for c in name.upper()) % 360
+
+
+def brawler_avatar(name: str | None, _brawler_id: int | None = None) -> str:
+    """Devolve um data URI SVG original para o Brawler."""
+    safe_name = (name or "?").upper()
+    hue = _hue(safe_name)
+    c1 = f"hsl({hue},72%,58%)"
+    c2 = f"hsl({(hue + 38) % 360},70%,38%)"
+    ini = initials(safe_name)
+    font_size = 92 if len(ini) <= 2 else 70
+
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">'
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="{c1}"/><stop offset="1" stop-color="{c2}"/>'
+        "</linearGradient></defs>"
+        '<rect width="200" height="200" rx="26" fill="url(#g)"/>'
+        # Estrela decorativa ao fundo
+        '<path d="M100 22 L113 62 L155 62 L121 87 L134 128 L100 103 L66 128 '
+        'L79 87 L45 62 L87 62 Z" fill="#ffffff" opacity="0.13"/>'
+        # Monograma com contorno
+        f'<text x="100" y="127" font-family="{_GLYPH_FONT}" font-size="{font_size}" '
+        'text-anchor="middle" fill="#ffffff" stroke="#101a33" stroke-width="9" '
+        f'paint-order="stroke" letter-spacing="2">{ini}</text>'
+        '<rect x="4" y="4" width="192" height="192" rx="22" fill="none" '
+        'stroke="rgba(0,0,0,0.32)" stroke-width="8"/>'
+        "</svg>"
+    )
+    return "data:image/svg+xml," + quote(svg, safe="")

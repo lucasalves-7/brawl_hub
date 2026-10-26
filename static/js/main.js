@@ -66,7 +66,6 @@
   /* ------------------------------------------- Validação da tag do jogador */
   // Conjunto de caracteres aceito pela tag de Brawl Stars.
   var TAG_CHARS = "0289PYLQGRJCUV";
-  var EXAMPLE_TAG = "#2L8QY9VJ";
 
   function normalizeTag(raw) {
     var t = String(raw || "").trim().toUpperCase();
@@ -126,11 +125,10 @@
 
   /* ------------------------------------------------ Preencher tag-exemplo -- */
   var fillBtn = document.getElementById("fill-example");
-  if (fillBtn && input) {
+  if (fillBtn) {
     fillBtn.addEventListener("click", function () {
-      input.value = EXAMPLE_TAG;
-      setHint("ok", "Exemplo carregado. Clique em <strong>Analisar jogador</strong>.");
-      input.focus();
+      // O backend escolhe um jogador real (líder global) para o exemplo.
+      window.location.href = "/exemplo/";
     });
   }
 })();

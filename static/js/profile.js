@@ -1,0 +1,213 @@
+/* =============================================================================
+   BRAWL HUB — Dashboard do jogador
+   Gráfico de distribuição, filtros de Brawlers e filtros do histórico.
+   Todos os filtros operam sobre dados já carregados (sem nova consulta à API).
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var fmt = function (n) { return Number(n).toLocaleString("pt-BR"); };
+
+  /* ------------------------------------------------ Gráfico (Chart.js) --- */
+  function renderChart() {
+    var canvas = document.getElementById("dist-chart");
+    var dataEl = document.getElementById("dist-data");
+    if (!canvas || !dataEl || typeof Chart === "undefined") return;
+
+    var rows;
+    try { rows = JSON.parse(dataEl.textContent); } catch (e) { return; }
+    if (!Array.isArray(rows) || !rows.length) return;
+
+    var labels = rows.map(function (r) { return r.name; });
+    var values = rows.map(function (r) { return r.trophies; });
+
+    new Chart(canvas, {
+      type: "bar",
+      data: {
+        labels: labels,
+        datasets: [{
+          label: "Troféus",
+          data: values,
+          backgroundColor: "rgba(255, 206, 40, 0.85)",
+          hoverBackgroundColor: "#ffe36b",
+          borderColor: "#b07d00",
+          borderWidth: 2,
+          borderRadius: 8,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function (ctx) { return " " + fmt(ctx.parsed.x) + " troféus"; }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: {
+              color: "#93a4d4",
+              callback: function (v) { return fmt(v); }
+            },
+            grid: { color: "rgba(255,255,255,0.06)" }
+          },
+          y: {
+            ticks: { color: "#d5deff", font: { weight: "700" } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  /* ------------------------------------------------- Filtros Brawlers --- */
+  function brawlerFilters() {
+    var grid = document.getElementById("brawler-grid");
+    if (!grid) return;
+
+    var search = document.getElementById("bf-name");
+    var power = document.getElementById("bf-power");
+    var sort = document.getElementById("bf-sort");
+    var count = document.getElementById("bf-count");
+    var cards = Array.prototype.slice.call(grid.querySelectorAll(".brawler-card"));
+    if (!cards.length) return;
+
+    var total = cards.length;
+
+    // Pré-carrega os valores para ordenar sem reler o DOM toda vez
+    cards.forEach(function (c) {
+      c._d = {
+        name: c.dataset.name || "",
+        trophies: +c.dataset.trophies || 0,
+        highest: +c.dataset.highest || 0,
+        power: +c.dataset.power || 0,
+        rank: +c.dataset.rank || 0
+      };
+    });
+
+    function apply() {
+      var q = (search.value || "").trim().toLowerCase();
+      var lv = power.value;
+      var sortBy = sort.value;
+      var shown = 0;
+
+      // Ordenação
+      var sorted = cards.slice().sort(function (a, b) {
+        switch (sortBy) {
+          case "name": return a._d.name.localeCompare(b._d.name);
+          case "highest": return b._d.highest - a._d.highest;
+          case "power": return b._d.power - a._d.power;
+          case "rank": return b._d.rank - a._d.rank;
+          default: return b._d.trophies - a._d.trophies;
+        }
+      });
+      sorted.forEach(function (c) { grid.appendChild(c); });
+
+      // Filtragem
+      cards.forEach(function (c) {
+        var okQ = !q || c._d.name.indexOf(q) !== -1;
+        var okP = !lv || c._d.power === +lv;
+        var show = okQ && okP;
+        c.style.display = show ? "" : "none";
+        if (show) shown++;
+      });
+
+      if (count) count.textContent = "Mostrando " + shown + " de " + total;
+
+      var empty = grid.querySelector(".empty-filter");
+      if (shown === 0) {
+        if (!empty) {
+          empty = document.createElement("p");
+          empty.className = "empty-filter";
+          empty.textContent = "Nenhum Brawler corresponde aos filtros.";
+          grid.appendChild(empty);
+        }
+        empty.style.display = "";
+      } else if (empty) {
+        empty.style.display = "none";
+      }
+    }
+
+    [search, power, sort].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("input", apply);
+      el.addEventListener("change", apply);
+    });
+  }
+
+  /* ---------------------------------------------- Filtros do histórico --- */
+  function battleFilters() {
+    var list = document.getElementById("battle-list");
+    if (!list) return;
+
+    var mode = document.getElementById("mf-mode");
+    var result = document.getElementById("mf-result");
+    var rows = Array.prototype.slice.call(list.querySelectorAll(".battle-row"));
+
+    function apply() {
+      var m = mode.value, r = result.value, shown = 0;
+      rows.forEach(function (row) {
+        var okM = !m || row.dataset.mode === m;
+        var okR = !r || row.dataset.result === r;
+        var show = okM && okR;
+        row.style.display = show ? "" : "none";
+        if (show) shown++;
+      });
+
+      var empty = list.querySelector(".empty-filter");
+      if (shown === 0) {
+        if (!empty) {
+          empty = document.createElement("p");
+          empty.className = "empty-filter";
+          empty.textContent = "Nenhuma partida com esses filtros.";
+          list.appendChild(empty);
+        }
+        empty.style.display = "";
+      } else if (empty) {
+        empty.style.display = "none";
+      }
+    }
+
+    [mode, result].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("change", apply);
+    });
+  }
+
+  /* -------------------------------------------------- Formatar datas ----- */
+  function formatTimes() {
+    var nodes = document.querySelectorAll("[data-btime]");
+    Array.prototype.forEach.call(nodes, function (n) {
+      var raw = n.getAttribute("data-btime");
+      if (!raw) return;
+      // "20261026T213039.000Z" -> ISO parseável
+      var iso = raw.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/,
+        "$1-$2-$3T$4:$5:$6");
+      var d = new Date(iso);
+      if (isNaN(d)) { n.textContent = raw; return; }
+      var pad = function (x) { return String(x).padStart(2, "0"); };
+      n.textContent = pad(d.getDate()) + "/" + pad(d.getMonth() + 1) +
+        " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    });
+  }
+
+  /* ---------------------------------------------------------- Init ------- */
+  function init() {
+    renderChart();
+    brawlerFilters();
+    battleFilters();
+    formatTimes();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();

@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% load static player_tags %}
+
+{% block title %}{{ player.name|default:requested_tag }} — Brawl Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/players.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{# ===================== ESTADO DE ERRO ===================== #}
+{% if error %}
+<section class="section">
+  <div class="container" style="max-width: 640px;">
+    <div class="card card--accent" style="text-align:center; padding: var(--sp-7) var(--sp-5);">
+      <span class="tag tag--red" style="margin-bottom: var(--sp-4);"><span class="tag__dot"></span> Ops</span>
+      <h1 style="font-size: var(--fs-2xl); margin-bottom: var(--sp-3);">{{ error.title }}</h1>
+      <p style="max-width: 44ch; margin: 0 auto var(--sp-5);">{{ error.message }}</p>
+      <div class="search" style="margin: 0 auto;">
+        <label class="visually-hidden" for="tag-input">Tag do jogador</label>
+        <input class="input input--tag" id="tag-input" name="tag" type="text" placeholder="Digite a tag do jogador">
+        <button class="btn" type="submit">Analisar</button>
+      </div>
+      <p style="margin-top: var(--sp-4);"><a href="{% url 'core:home' %}">← Voltar ao início</a></p>
+    </div>
+  </div>
+</section>
+
+{# ===================== DASHBOARD ===================== #}
+{% else %}
+
+{# ---- Seção A · Cartão do jogador ---- #}
+<section class="profile-hero">
+  <div class="container">
+    <div class="player-card player-card--full">
+      <img class="player-card__art" src="{{ player.avatar }}" alt="Avatar de {{ player.name }}">
+
+      <div class="player-card__meta">
+        <div class="player-card__name">{{ player.name }}</div>
+        <div class="player-card__tags">
+          <span class="chip">{{ player.tag }}</span>
+          {% if player.club_name %}
+            <a class="chip" href="#" data-soon="Clubes">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 20v-2a4 4 0 0 0-3-3.87"/></svg>
+              {{ player.club_name }}
+            </a>
+          {% endif %}
+          <span class="tag tag--sky">Nível {{ player.exp_level }}</span>
+          {% if player.ranked_rank_name %}
+            <span class="tag tag--purple"><span class="tag__dot"></span> {{ player.ranked_rank_name }}</span>
+          {% endif %}
+          {% if player.fame_tier_name %}
+            <span class="tag tag--yellow">{{ player.fame_tier_name }}</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="player-card__trophies">
+        <span class="trophy-pill">
+          <img src="{% static 'img/trophy.svg' %}" alt="" width="38" height="38">
+          {{ player.trophies|floatformat:0 }}
+        </span>
+        <div class="text-muted" style="font-weight:700;">Recorde {{ player.highest_trophies|floatformat:0 }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: var(--sp-5);">
+  <div class="container">
+
+    {# ---- Seção B · Estatísticas gerais (Grupo A: dados fornecidos) ---- #}
+    <div class="stats-grid">
+      <div class="stat-tile stat-tile--yellow">
+        <img class="stat-tile__icon" src="{% static 'img/trophy.svg' %}" alt="">
+        <span class="stat-tile__value">{{ player.trophies|floatformat:0 }}</span>
+        <span class="stat-tile__label">Troféus</span>
+      </div>
+      <div class="stat-tile stat-tile--sky">
+        <span class="stat-tile__value">{{ player.highest_trophies|floatformat:0 }}</span>
+        <span class="stat-tile__label">Recorde</span>
+      </div>
+      <div class="stat-tile stat-tile--green">
+        <span class="stat-tile__value">{{ player.victories_3vs3|floatformat:0 }}</span>
+        <span class="stat-tile__label">Vitórias 3v3</span>
+      </div>
+      <div class="stat-tile stat-tile--purple">
+        <span class="stat-tile__value">{{ player.solo_victories|floatformat:0 }}</span>
+        <span class="stat-tile__label">Vitórias Solo</span>
+      </div>
+      <div class="stat-tile stat-tile--orange">
+        <span class="stat-tile__value">{{ player.duo_victories|floatformat:0 }}</span>
+        <span class="stat-tile__label">Vitórias Dupla</span>
+      </div>
+      <div class="stat-tile stat-tile--yellow">
+        <span class="stat-tile__value">{{ brawler_count }}</span>
+        <span class="stat-tile__label">Brawlers</span>
+      </div>
+    </div>
+
+    {# ---- Seções C + E · Distribuição + Desempenho recente ---- #}
+    <div class="two-col">
+      {# Distribuição de troféus (Grupo B: calculado) #}
+      <div class="card card--accent-sky">
+        <div class="card__title" style="display:flex; align-items:center; gap:.5rem;">
+          Distribuição de troféus
+          <span class="tag tag--muted">Top 10</span>
+        </div>
+        <p class="card__text" style="margin-bottom: var(--sp-4);">Onde sua pontuação está concentrada.</p>
+        <div class="chart-wrap">
+          <canvas id="dist-chart" height="320"></canvas>
+        </div>
+      </div>
+
+      {# Desempenho recente (Grupo B: calculado) #}
+      <div class="card card--accent-green">
+        <div class="card__title" style="display:flex; align-items:center; gap:.5rem;">
+          Desempenho recente
+          <span class="tag tag--muted">Últimas {{ perf.sample_size }} partidas</span>
+        </div>
+
+        {% if perf.valid %}
+          <div class="perf-top">
+            <div>
+              <div class="stat-tile__value text-green" style="font-size: var(--fs-3xl);">{{ perf.win_rate }}%</div>
+              <div class="stat-tile__label">Aproveitamento</div>
+            </div>
+            <div class="perf-counts">
+              <span class="text-green">{{ perf.wins }}V</span>
+              <span class="text-red">{{ perf.losses }}D</span>
+              {% if perf.draws %}<span class="text-muted">{{ perf.draws }}E</span>{% endif %}
+              {% if perf.trophy_delta is not None %}
+                <span class="trophy-pill" style="font-size: var(--fs-base);">
+                  <img src="{% static 'img/trophy.svg' %}" alt="" width="16" height="16">
+                  <span class="{% if perf.trophy_delta >= 0 %}text-green{% else %}text-red{% endif %}">
+                    {{ perf.trophy_delta }} na amostra
+                  </span>
+                </span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="progress progress--green" style="--p: {{ perf.win_rate }}%;"><div class="progress__fill"></div></div>
+
+          {# Brawlers usados na amostra #}
+          {% if perf.brawlers_used %}
+            <div class="perf-block">
+              <h5>Brawlers usados</h5>
+              <div class="chip-row">
+                {% for b in perf.brawlers_used %}
+                  <span class="chip">{{ b.name }} <span class="text-muted">×{{ b.count }}</span></span>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {# Resultado por modo #}
+          {% if perf.by_mode %}
+            <div class="perf-block">
+              <h5>Por modo</h5>
+              {% for m in perf.by_mode %}
+                <div class="mode-row">
+                  <span class="mode-row__label">{{ m.label }}</span>
+                  <div class="progress progress--green" style="--p: {{ m.win_rate|default:0 }}%;"><div class="progress__fill"></div></div>
+                  <span class="mode-row__stat">{{ m.win_rate|default:0 }}% · {{ m.total }}p</span>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <p class="card__text" style="margin-top: var(--sp-4);">
+            Calculado apenas sobre as {{ perf.valid }} partidas com resultado identificável na amostra.
+            Não representa a taxa de vitória de toda a trajetória da conta.
+          </p>
+        {% else %}
+          <p class="card__text">Sem partidas com resultado identificável no histórico disponível para esta conta.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {# ---- Seção D · Brawlers ---- #}
+    <div class="brawlers-head">
+      <h2>Melhores Brawlers</h2>
+      <span class="tag tag--muted">{{ brawler_count }} desbloqueados</span>
+    </div>
+
+    {# Filtros (operam sobre os dados já carregados — não consultam a API) #}
+    <div class="filters">
+      <input class="input" id="bf-name" type="search" placeholder="Buscar por nome…" aria-label="Buscar Brawler por nome">
+      <select class="input" id="bf-power" aria-label="Filtrar por nível de poder">
+        <option value="">Todos os níveis</option>
+        {% power_levels brawlers as levels %}
+        {% for lv in levels %}<option value="{{ lv }}">Nível {{ lv }}</option>{% endfor %}
+      </select>
+      <select class="input" id="bf-sort" aria-label="Ordenar Brawlers">
+        <option value="trophies">Mais troféus</option>
+        <option value="highest">Maior recorde</option>
+        <option value="power">Maior nível de poder</option>
+        <option value="rank">Maior rank</option>
+        <option value="name">Nome (A–Z)</option>
+      </select>
+    </div>
+
+    <p class="filter-count" id="bf-count">Mostrando {{ brawler_count }} de {{ brawler_count }}</p>
+
+    <div class="brawler-grid" id="brawler-grid">
+      {% for b in brawlers %}
+        <article class="brawler-card"
+                 data-name="{{ b.name|lower }}"
+                 data-trophies="{{ b.trophies }}"
+                 data-highest="{{ b.highest_trophies }}"
+                 data-power="{{ b.power }}"
+                 data-rank="{{ b.rank }}"
+                 tabindex="0">
+          <div class="brawler-card__art">
+            <img src="{{ b.avatar }}" alt="Brawler {{ b.name }}" loading="lazy">
+            <span class="brawler-card__power">P{{ b.power }}</span>
+            {% if b.has_hypercharge %}<span class="brawler-card__hc" title="Hypercharge">HC</span>{% endif %}
+          </div>
+          <h4 class="brawler-card__name">{{ b.name }}</h4>
+          <div class="brawler-card__stats">
+            <span class="trophy-pill"><img src="{% static 'img/trophy.svg' %}" alt="" width="18" height="18">{{ b.trophies }}</span>
+          </div>
+          <div class="brawler-card__sub">
+            <span class="tag tag--purple">Rank {{ b.rank }}</span>
+            <span class="text-muted">Rec. {{ b.highest_trophies }}</span>
+          </div>
+        </article>
+      {% empty %}
+        <p class="card__text">Nenhum Brawler encontrado no perfil.</p>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{# ---- Histórico de partidas ---- #}
+{% if perf.battles %}
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="brawlers-head">
+      <h2>Histórico recente</h2>
+      <span class="tag tag--muted">{{ perf.battles|length }} partidas listadas</span>
+    </div>
+
+    <div class="filters">
+      <select class="input" id="mf-mode" aria-label="Filtrar por modo">
+        <option value="">Todos os modos</option>
+        {% for m in perf.by_mode %}<option value="{{ m.mode }}">{{ m.label }}</option>{% endfor %}
+      </select>
+      <select class="input" id="mf-result" aria-label="Filtrar por resultado">
+        <option value="">Todos os resultados</option>
+        <option value="win">Vitórias</option>
+        <option value="loss">Derrotas</option>
+        <option value="draw">Empates</option>
+      </select>
+    </div>
+
+    <ul class="battle-list" id="battle-list">
+      {% for bt in perf.battles %}
+        <li class="battle-row" data-mode="{{ bt.mode }}" data-result="{{ bt.result }}">
+          <span class="battle-row__result battle-row__result--{{ bt.result }}">
+            {% if bt.result == 'win' %}Vitória{% elif bt.result == 'loss' %}Derrota{% else %}Empate{% endif %}
+          </span>
+          <div class="battle-row__main">
+            <strong>{{ bt.mode_label }}</strong>
+            <span class="text-muted">{{ bt.map|default:"Mapa não informado" }}</span>
+          </div>
+          <span class="battle-row__brawler">{{ bt.brawler|default:"—" }}</span>
+          <span class="battle-row__time text-muted" data-btime="{{ bt.battle_time }}"></span>
+          {% if bt.trophy_change is not None %}
+            <span class="trophy-pill" style="font-size: var(--fs-sm);">
+              <span class="{% if bt.trophy_change >= 0 %}text-green{% else %}text-red{% endif %}">
+                {{ bt.trophy_change }}
+              </span>
+            </span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+{# Dados para o gráfico, com segurança (json_script) #}
+{{ distribution|json_script:"dist-data" }}
+
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if not error %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<script src="{% static 'js/profile.js' %}" defer></script>
+{% endif %}
+{% endblock %}
