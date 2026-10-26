@@ -211,6 +211,59 @@
 
 .battle-row__time { font-size: var(--fs-xs); white-space: nowrap; }
 
+.battle-status {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ------------------------------ Paginação ------------------------------ */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+
+.pager-btn {
+  min-width: 42px;
+  padding: 0.45rem 0.85rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  color: var(--text-soft);
+  background: var(--surface-500);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.pager-btn:hover:not(:disabled) {
+  background: var(--surface-400);
+  color: var(--text);
+}
+
+.pager-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.pager-btn--active {
+  background: var(--yellow);
+  color: var(--on-yellow);
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 3px 0 var(--yellow-shadow);
+}
+
+.pager-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Estado vazio de filtro */
 .empty-filter {
   padding: var(--sp-5);

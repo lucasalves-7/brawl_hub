@@ -178,27 +178,72 @@
     apply();
   }
 
-  /* ---------------------------------------------- Filtros do histórico --- */
+  /* ------------------------------------- Filtros + paginação do histórico - */
   function battleFilters() {
     var list = document.getElementById("battle-list");
     if (!list) return;
 
     var mode = document.getElementById("mf-mode");
     var result = document.getElementById("mf-result");
+    var pager = document.getElementById("battle-pager");
+    var status = document.getElementById("battle-status");
     var rows = Array.prototype.slice.call(list.querySelectorAll(".battle-row"));
 
-    function apply() {
-      var m = mode.value, r = result.value, shown = 0;
-      rows.forEach(function (row) {
+    var PER_PAGE = 5; // partidas por página
+    var page = 1;
+
+    function matchedRows() {
+      var m = mode.value, r = result.value;
+      return rows.filter(function (row) {
         var okM = !m || row.dataset.mode === m;
         var okR = !r || row.dataset.result === r;
-        var show = okM && okR;
-        row.style.display = show ? "" : "none";
-        if (show) shown++;
+        return okM && okR;
       });
+    }
 
+    function buildPager(pages) {
+      if (!pager) return;
+      pager.innerHTML = "";
+      if (pages <= 1) { pager.style.display = "none"; return; }
+      pager.style.display = "";
+
+      function mkBtn(label, target, opts) {
+        opts = opts || {};
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "pager-btn" + (opts.active ? " pager-btn--active" : "");
+        b.textContent = label;
+        b.disabled = !!opts.disabled;
+        b.addEventListener("click", function () {
+          page = target;
+          render();
+        });
+        pager.appendChild(b);
+      }
+
+      mkBtn("‹ Anterior", page - 1, { disabled: page <= 1 });
+      for (var i = 1; i <= pages; i++) {
+        mkBtn(String(i), i, { active: i === page });
+      }
+      mkBtn("Próxima ›", page + 1, { disabled: page >= pages });
+    }
+
+    function render() {
+      var matched = matchedRows();
+      var pages = Math.max(1, Math.ceil(matched.length / PER_PAGE));
+      if (page > pages) page = pages;
+      if (page < 1) page = 1;
+
+      var start = (page - 1) * PER_PAGE;
+      var slice = matched.slice(start, start + PER_PAGE);
+
+      // Esconde tudo e mostra apenas a fatia da página atual
+      rows.forEach(function (row) { row.style.display = "none"; });
+      slice.forEach(function (row) { row.style.display = ""; });
+
+      // Estado vazio
       var empty = list.querySelector(".empty-filter");
-      if (shown === 0) {
+      if (matched.length === 0) {
         if (!empty) {
           empty = document.createElement("p");
           empty.className = "empty-filter";
@@ -209,12 +254,24 @@
       } else if (empty) {
         empty.style.display = "none";
       }
+
+      // Texto de status
+      if (status) {
+        status.textContent = matched.length
+          ? "Página " + page + " de " + pages + " · " + matched.length + " partidas"
+          : "0 partidas";
+      }
+
+      buildPager(pages);
     }
 
+    // Mudar filtro volta para a primeira página
     [mode, result].forEach(function (el) {
       if (!el) return;
-      el.addEventListener("change", apply);
+      el.addEventListener("change", function () { page = 1; render(); });
     });
+
+    render();
   }
 
   /* -------------------------------------------------- Formatar datas ----- */
