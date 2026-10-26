@@ -1,0 +1,479 @@
+/* =============================================================================
+   BRAWL HUB — Componentes reutilizáveis
+   Fase 1 · Botões, cards, etiquetas, progresso, campos e tiles de estatística.
+   Estilo inspirado em interface de jogo: contornos fortes, sombra inferior
+   e efeito de pressão ao clicar.
+   ========================================================================== */
+
+/* ============================== BOTÕES ================================== */
+.btn {
+  --btn-bg: var(--yellow);
+  --btn-shadow: var(--shadow-btn);
+  --btn-fg: var(--on-yellow);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 3px solid rgba(0, 0, 0, 0.28);
+  border-radius: var(--radius);
+  box-shadow: var(--btn-shadow), var(--shadow-inset);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.06);
+}
+
+/* Efeito de pressão: o botão "afunda" ao ser clicado */
+.btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--btn-shadow-color, var(--yellow-shadow)), var(--shadow-inset);
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.btn--sm {
+  padding: 0.45rem 1rem;
+  font-size: var(--fs-sm);
+  border-radius: var(--radius-sm);
+}
+
+.btn--lg {
+  padding: 0.95rem 2rem;
+  font-size: var(--fs-md);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* Variantes */
+.btn--sky {
+  --btn-bg: var(--sky);
+  --btn-shadow: var(--shadow-btn-sky);
+  --btn-fg: #04202c;
+}
+
+.btn--purple {
+  --btn-bg: var(--purple);
+  --btn-shadow: var(--shadow-btn-purple);
+  --btn-fg: #ffffff;
+}
+
+.btn--ghost {
+  --btn-bg: rgba(255, 255, 255, 0.06);
+  --btn-shadow: var(--shadow-btn-ghost);
+  --btn-fg: var(--text);
+  border-color: var(--line-strong);
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn__icon {
+  width: 1.05em;
+  height: 1.05em;
+  flex: none;
+}
+
+/* ============================== CARDS =================================== */
+.card {
+  position: relative;
+  background: linear-gradient(180deg, var(--surface-500) 0%, var(--surface-600) 100%);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card), var(--shadow-inset);
+  padding: var(--sp-5);
+}
+
+.card--flat {
+  box-shadow: none;
+  background: var(--bg-700);
+}
+
+/* Barra de destaque no topo do card — comunica categoria por cor */
+.card--accent { border-top: 6px solid var(--yellow); }
+.card--accent-sky { border-top: 6px solid var(--sky); }
+.card--accent-purple { border-top: 6px solid var(--purple); }
+.card--accent-green { border-top: 6px solid var(--green); }
+
+.card__title {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--sp-2);
+}
+
+.card__text {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* ======================= ETIQUETAS / BADGES ============================= */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0.2rem 0.7rem;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  line-height: 1.5;
+}
+
+.tag--yellow { background: rgba(255, 206, 40, 0.16); color: var(--yellow); border-color: rgba(255, 206, 40, 0.4); }
+.tag--sky    { background: rgba(62, 200, 240, 0.16); color: var(--sky); border-color: rgba(62, 200, 240, 0.4); }
+.tag--purple { background: rgba(144, 97, 249, 0.18); color: var(--purple); border-color: rgba(144, 97, 249, 0.45); }
+.tag--green  { background: rgba(61, 220, 132, 0.16); color: var(--green); border-color: rgba(61, 220, 132, 0.4); }
+.tag--red    { background: rgba(255, 77, 94, 0.16); color: var(--red); border-color: rgba(255, 77, 94, 0.4); }
+.tag--orange { background: rgba(255, 159, 28, 0.16); color: var(--orange); border-color: rgba(255, 159, 28, 0.4); }
+.tag--muted  { background: rgba(255, 255, 255, 0.06); color: var(--text-muted); border-color: var(--line-strong); }
+
+.tag__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* ========================= PÍLULA DE TROFÉUS ============================ */
+.trophy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  color: var(--yellow);
+  letter-spacing: 0.02em;
+}
+
+.trophy-pill svg {
+  width: 1.1em;
+  height: 1.1em;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+}
+
+/* =========================== BARRA DE PROGRESSO ========================= */
+.progress {
+  --p: 0%;
+  --progress-fill: linear-gradient(90deg, var(--sky) 0%, var(--sky-deep) 100%);
+
+  position: relative;
+  width: 100%;
+  height: 14px;
+  background: var(--bg-900);
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.progress__fill {
+  height: 100%;
+  width: var(--p);
+  background: var(--progress-fill);
+  border-radius: var(--radius-pill);
+  animation: progress-grow 1.1s var(--ease-pop);
+  transition: width 0.4s var(--ease-pop);
+}
+
+.progress--yellow { --progress-fill: linear-gradient(90deg, var(--yellow-bright), var(--yellow-deep)); }
+.progress--green  { --progress-fill: linear-gradient(90deg, var(--green), var(--green-deep)); }
+.progress--purple { --progress-fill: linear-gradient(90deg, var(--purple), var(--purple-deep)); }
+
+@keyframes progress-grow {
+  from { width: 0; }
+  to { width: var(--p); }
+}
+
+/* ============================== CAMPOS ================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.field__label {
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  padding: 0.8rem 1.1rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  color: var(--text);
+  background: var(--bg-900);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--sky);
+  box-shadow: 0 0 0 4px rgba(62, 200, 240, 0.22);
+}
+
+.input--tag {
+  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ====================== TILE DE ESTATÍSTICA ============================= */
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-5);
+  background: linear-gradient(180deg, var(--surface-500) 0%, var(--surface-600) 100%);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card), var(--shadow-inset);
+  transition: transform 0.16s var(--ease-pop), border-color 0.16s ease;
+}
+
+.stat-tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+}
+
+.stat-tile__icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: var(--sp-1);
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+}
+
+.stat-tile__value {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--text);
+  line-height: 1;
+}
+
+.stat-tile__label {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-tile--yellow .stat-tile__value { color: var(--yellow); }
+.stat-tile--sky .stat-tile__value { color: var(--sky); }
+.stat-tile--green .stat-tile__value { color: var(--green); }
+.stat-tile--purple .stat-tile__value { color: var(--purple); }
+.stat-tile--orange .stat-tile__value { color: var(--orange); }
+
+/* ========================= CARD DE BRAWLER ============================== */
+.brawler-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  background: linear-gradient(180deg, var(--surface-500) 0%, var(--surface-600) 100%);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.16s var(--ease-pop), border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+/* Efeito de seleção sutil ao escolher um personagem */
+.brawler-card:hover,
+.brawler-card:focus-visible {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--yellow);
+  box-shadow: var(--shadow-pop), 0 0 0 3px rgba(255, 206, 40, 0.25);
+}
+
+.brawler-card__art {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-700);
+}
+
+.brawler-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.22s var(--ease-pop);
+}
+
+.brawler-card:hover .brawler-card__art img {
+  transform: scale(1.06);
+}
+
+.brawler-card__power {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  padding: 0.1rem 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  color: var(--on-yellow);
+  background: var(--yellow);
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-xs);
+  box-shadow: 0 2px 0 var(--yellow-shadow);
+}
+
+.brawler-card__name {
+  font-size: var(--fs-md);
+  text-align: center;
+}
+
+.brawler-card__stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+/* Grid reutilizável de brawlers */
+.brawler-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--sp-4);
+}
+
+/* ======================= AVATAR / CLUBE / MEMBRO ======================== */
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--line-strong);
+  background: var(--bg-700);
+  flex: none;
+}
+
+/* ============================== CHIP ==================================== */
+/* Chip de informação compacto (clube, região, modo) */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0.25rem 0.7rem;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-soft);
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-pill);
+}
+
+.chip svg {
+  width: 1em;
+  height: 1em;
+  color: var(--sky);
+}
+
+/* ============================ AVISO ===================================== */
+/* Marca dados fictícios — transparência é obrigatória (seção 10) */
+.demo-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0.35rem 0.9rem;
+  font-weight: 800;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(255, 159, 28, 0.12);
+  border: 2px dashed rgba(255, 159, 28, 0.55);
+  border-radius: var(--radius-pill);
+}
+
+.demo-banner svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+
+/* ============================ AVISO FLUTUANTE =========================== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--sp-6);
+  transform: translateX(-50%) translateY(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  max-width: min(92vw, 460px);
+  padding: 0.75rem 1.15rem;
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  color: var(--text);
+  background: var(--surface-500);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s var(--ease-pop);
+}
+
+.toast svg {
+  width: 1.35em;
+  height: 1.35em;
+  flex: none;
+  color: var(--sky);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================ RESPONSIVO ================================ */
+@media (max-width: 640px) {
+  .btn {
+    padding: 0.65rem 1.2rem;
+  }
+  .btn--lg {
+    padding: 0.8rem 1.4rem;
+  }
+  .section {
+    padding-block: var(--sp-7);
+  }
+  .container {
+    padding-inline: var(--sp-4);
+  }
+}

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Troféu">
+  <defs>
+    <linearGradient id="tr-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe36b"/>
+      <stop offset="1" stop-color="#e0a800"/>
+    </linearGradient>
+  </defs>
+  <!-- Copa -->
+  <path d="M14 6h20v10a10 10 0 0 1-20 0V6Z" fill="url(#tr-g)" stroke="#2a1c00" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Alças -->
+  <path d="M14 9H9a5 5 0 0 0 5 8" fill="none" stroke="#2a1c00" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M34 9h5a5 5 0 0 1-5 8" fill="none" stroke="#2a1c00" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Haste -->
+  <rect x="21.5" y="26" width="5" height="8" fill="#e0a800" stroke="#2a1c00" stroke-width="2"/>
+  <!-- Base -->
+  <path d="M15 40h18l-2-6H17l-2 6Z" fill="url(#tr-g)" stroke="#2a1c00" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Brilho -->
+  <path d="M19 10c0-1.5 1-2.5 2.5-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+</svg>

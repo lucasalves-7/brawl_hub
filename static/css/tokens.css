@@ -1,0 +1,111 @@
+/* =============================================================================
+   BRAWL HUB — Design tokens
+   Fase 1 · Fundação visual
+
+   Regra de design: as cores comunicam informação, não apenas decoram.
+   Cada cor tem um papel fixo e deve ser usada de forma consistente.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------- Fundo ------ */
+  /* Azul profundo — fundo das páginas */
+  --bg-900: #0b1733;
+  --bg-800: #102049;
+  --bg-700: #16295c;
+
+  /* ------------------------------------------------------ Superfícies ---- */
+  /* Azul médio — painéis e áreas de conteúdo */
+  --surface-600: #1c356f;
+  --surface-500: #22428a;
+  --surface-400: #2b53a6;
+
+  /* ------------------------------------------------- Destaque principal -- */
+  /* Amarelo vibrante — botões, troféus e chamadas */
+  --yellow: #ffce28;
+  --yellow-bright: #ffe36b;
+  --yellow-deep: #e0a800;
+  --yellow-shadow: #b07d00;
+  --on-yellow: #2a1c00;
+
+  /* ----------------------------------------------- Destaque secundário --- */
+  /* Azul-celeste — informações e componentes */
+  --sky: #3ec8f0;
+  --sky-deep: #1f93bd;
+  --sky-shadow: #166f91;
+
+  /* ------------------------------------------- Elementos especiais ------ */
+  /* Roxo — categorias e destaques */
+  --purple: #9061f9;
+  --purple-deep: #6d3fe0;
+  --purple-shadow: #4d28ac;
+
+  /* --------------------------------------------------------- Sucesso ---- */
+  /* Verde — vitórias e resultados positivos */
+  --green: #3ddc84;
+  --green-deep: #1fae5f;
+  --green-shadow: #158a49;
+
+  /* ----------------------------------------------------------- Alertas -- */
+  /* Vermelho e laranja — erros e indicadores negativos */
+  --red: #ff4d5e;
+  --red-deep: #d12b3c;
+  --orange: #ff9f1c;
+  --orange-deep: #d97c00;
+
+  /* ------------------------------------------------------------ Texto --- */
+  --text: #ffffff;
+  --text-soft: #d5deff;
+  --text-muted: #93a4d4;
+
+  /* ----------------------------------------------------------- Bordas --- */
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --ring: 0 0 0 3px rgba(62, 200, 240, 0.55);
+
+  /* ------------------------------------------------------ Tipografia ---- */
+  --font-display: "Lilita One", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.0625rem;
+  --fs-lg: 1.375rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3rem;
+  --fs-hero: clamp(2.4rem, 6vw, 4.25rem);
+
+  /* ------------------------------------------------------- Espaçamento -- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  /* --------------------------------------------------------- Raios ------ */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 26px;
+  --radius-xl: 34px;
+  --radius-pill: 999px;
+
+  /* --------------------------------------------------------- Sombras ---- */
+  --shadow-btn: 0 5px 0 var(--yellow-shadow);
+  --shadow-btn-sky: 0 5px 0 var(--sky-shadow);
+  --shadow-btn-purple: 0 5px 0 var(--purple-shadow);
+  --shadow-btn-ghost: 0 4px 0 rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 14px 34px rgba(4, 10, 30, 0.45);
+  --shadow-pop: 0 10px 26px rgba(4, 10, 30, 0.5);
+  --shadow-inset: inset 0 2px 0 rgba(255, 255, 255, 0.14);
+
+  /* --------------------------------------------------------- Layout ----- */
+  --container: 1200px;
+  --header-h: 74px;
+  --ease-pop: cubic-bezier(0.2, 0.8, 0.2, 1);
+}

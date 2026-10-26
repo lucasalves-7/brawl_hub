@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil {{ tag }} — Brawl Hub{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width: 720px;">
+    <div class="card card--accent" style="text-align: center; padding: var(--sp-7) var(--sp-5);">
+      <span class="tag tag--yellow" style="margin-bottom: var(--sp-4);">
+        <span class="tag__dot"></span> Em construção
+      </span>
+
+      <h1 style="font-size: var(--fs-2xl); margin-bottom: var(--sp-3);">
+        Perfil <span class="text-yellow">#{{ tag }}</span>
+      </h1>
+
+      <p style="max-width: 46ch; margin-inline: auto; margin-bottom: var(--sp-5);">
+        A busca foi aceita e a tag foi reconhecida. O painel completo do jogador —
+        com estatísticas gerais, grade de Brawlers e desempenho recente — será
+        montado na <strong>Fase 3</strong> com dados demonstrativos e conectado à
+        API oficial da Supercell na <strong>Fase 4</strong>.
+      </p>
+
+      <div style="display: flex; gap: var(--sp-3); justify-content: center; flex-wrap: wrap;">
+        <a class="btn" href="{% url 'core:home' %}">Voltar ao início</a>
+        <a class="btn btn--ghost" href="#demo">Ver prévia do painel</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

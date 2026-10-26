@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Brawl Hub">
+  <defs>
+    <linearGradient id="lh-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe36b"/>
+      <stop offset="1" stop-color="#e0a800"/>
+    </linearGradient>
+    <linearGradient id="lh-star" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d7e3ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Badge -->
+  <rect x="6" y="6" width="108" height="108" rx="30" fill="url(#lh-bg)"/>
+  <rect x="6" y="6" width="108" height="108" rx="30" fill="none" stroke="#2a1c00" stroke-width="8"/>
+
+  <!-- Barras de estatística ao fundo -->
+  <g fill="#2a1c00" opacity="0.22">
+    <rect x="30" y="66" width="12" height="26" rx="4"/>
+    <rect x="54" y="52" width="12" height="40" rx="4"/>
+    <rect x="78" y="38" width="12" height="54" rx="4"/>
+  </g>
+
+  <!-- Estrela principal -->
+  <path d="M60 22 L71.5 47.5 L99 51 L78.5 70 L84 97.5 L60 84 L36 97.5 L41.5 70 L21 51 L48.5 47.5 Z"
+        fill="url(#lh-star)" stroke="#2a1c00" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Brilho -->
+  <circle cx="50" cy="38" r="4" fill="#ffffff" opacity="0.9"/>
+</svg>

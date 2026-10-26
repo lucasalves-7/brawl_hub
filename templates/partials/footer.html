@@ -1,0 +1,52 @@
+{% load static %}
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__about">
+        <a class="logo" href="{% url 'core:home' %}" aria-label="Brawl Hub">
+          <img src="{% static 'img/logo.svg' %}" alt="" width="40" height="40">
+          <span class="logo__word">BRAWL<span>HUB</span></span>
+        </a>
+        <p>
+          Uma plataforma de estatísticas de Brawl Stars construída como uma extensão
+          do universo do jogo. Consulte perfis, explore seus Brawlers e acompanhe
+          sua evolução.
+        </p>
+        <p style="margin-top: var(--sp-3); font-family: var(--font-display); color: var(--yellow); text-transform: uppercase; letter-spacing: .03em;">
+          Your Stats. Your Strategy. Your Brawl.
+        </p>
+      </div>
+
+      <div>
+        <h5>Navegação</h5>
+        <ul class="footer__links">
+          <li><a href="{% url 'core:home' %}">Início</a></li>
+          <li><a href="#" data-soon="Brawlers">Brawlers</a></li>
+          <li><a href="#" data-soon="Rankings">Rankings</a></li>
+          <li><a href="#" data-soon="Clubes">Clubes</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5>Projeto</h5>
+        <ul class="footer__links">
+          <li><a href="#" data-soon="Sobre o projeto">Sobre o projeto</a></li>
+          <li><a href="https://developer.supercell.com/" target="_blank" rel="noopener noreferrer">Portal de desenvolvedores</a></li>
+          <li><a href="https://supercell.com/en/fan-content-policy/" target="_blank" rel="noopener noreferrer">Diretrizes de fan content</a></li>
+        </ul>
+
+        <h5 style="margin-top: var(--sp-5);">Aviso</h5>
+        <div class="footer__disclaimer">
+          <strong>Projeto independente.</strong> O Brawl Hub não é afiliado,
+          patrocinado ou endossado pela Supercell. Brawl Stars é marca da Supercell.
+          O logotipo e as ilustrações são originais.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© {% now "Y" %} Brawl Hub — feito por fãs, para fãs.</span>
+      <span>Dados exibidos conforme disponibilidade da API oficial.</span>
+    </div>
+  </div>
+</footer>

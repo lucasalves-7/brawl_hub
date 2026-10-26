@@ -1,0 +1,31 @@
+{% load static %}
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="{% url 'core:home' %}" aria-label="Brawl Hub — página inicial">
+      <img src="{% static 'img/logo.svg' %}" alt="" width="40" height="40">
+      <span class="logo__word">BRAWL<span>HUB</span></span>
+    </a>
+
+    {# Navegação principal #}
+    <nav class="nav" id="nav" aria-label="Navegação principal">
+      <a class="nav__link" href="{% url 'core:home' %}" aria-current="page">Início</a>
+      <a class="nav__link" href="#" data-soon="Brawlers">Brawlers</a>
+      <a class="nav__link" href="#" data-soon="Rankings">Rankings</a>
+      <a class="nav__link" href="#" data-soon="Clubes">Clubes</a>
+
+      <a class="btn btn--sm header__cta" href="#busca">
+        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        Consultar jogador
+      </a>
+    </nav>
+
+    {# Alternador do menu mobile #}
+    <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+      <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
+  </div>
+</header>
