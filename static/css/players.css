@@ -125,6 +125,12 @@
   margin-bottom: var(--sp-4);
 }
 
+.brawlers-more {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-5);
+}
+
 /* Selo de hypercharge no card */
 .brawler-card__hc {
   position: absolute;

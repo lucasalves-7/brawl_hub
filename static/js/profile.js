@@ -75,10 +75,13 @@
     var power = document.getElementById("bf-power");
     var sort = document.getElementById("bf-sort");
     var count = document.getElementById("bf-count");
+    var more = document.getElementById("bf-more");
     var cards = Array.prototype.slice.call(grid.querySelectorAll(".brawler-card"));
     if (!cards.length) return;
 
     var total = cards.length;
+    var PAGE = 24;      // quantos cards mostrar por vez
+    var limit = PAGE;   // limite atual (ampliado pelo "Ver mais")
 
     // Pré-carrega os valores para ordenar sem reler o DOM toda vez
     cards.forEach(function (c) {
@@ -95,9 +98,14 @@
       var q = (search.value || "").trim().toLowerCase();
       var lv = power.value;
       var sortBy = sort.value;
-      var shown = 0;
 
-      // Ordenação
+      function passes(c) {
+        var okQ = !q || c._d.name.indexOf(q) !== -1;
+        var okP = !lv || c._d.power === +lv;
+        return okQ && okP;
+      }
+
+      // Ordenação (define a ordem visual)
       var sorted = cards.slice().sort(function (a, b) {
         switch (sortBy) {
           case "name": return a._d.name.localeCompare(b._d.name);
@@ -109,19 +117,35 @@
       });
       sorted.forEach(function (c) { grid.appendChild(c); });
 
-      // Filtragem
-      cards.forEach(function (c) {
-        var okQ = !q || c._d.name.indexOf(q) !== -1;
-        var okP = !lv || c._d.power === +lv;
-        var show = okQ && okP;
-        c.style.display = show ? "" : "none";
-        if (show) shown++;
+      // Filtragem + limite progressivo (mostra os primeiros `limit` que passam)
+      var matchSeen = 0;
+      sorted.forEach(function (c) {
+        var ok = passes(c);
+        var within = ok && matchSeen < limit;
+        if (ok) matchSeen++;
+        c.style.display = within ? "" : "none";
       });
 
-      if (count) count.textContent = "Mostrando " + shown + " de " + total;
+      var totalMatched = matchSeen;
+      var currentlyShown = Math.min(limit, totalMatched);
 
+      if (count) {
+        var txt = "Mostrando " + currentlyShown + " de " + totalMatched + " Brawlers";
+        if (totalMatched !== total) txt += " (" + total + " no total)";
+        count.textContent = txt;
+      }
+
+      // Botão "Ver mais"
+      if (more && more.parentElement) {
+        var remaining = totalMatched - currentlyShown;
+        more.parentElement.style.display = remaining > 0 ? "" : "none";
+        more.textContent = "Ver mais (" + remaining + ")";
+        more.disabled = remaining <= 0;
+      }
+
+      // Estado vazio
       var empty = grid.querySelector(".empty-filter");
-      if (shown === 0) {
+      if (totalMatched === 0) {
         if (!empty) {
           empty = document.createElement("p");
           empty.className = "empty-filter";
@@ -134,11 +158,24 @@
       }
     }
 
+    // Mudar filtro/ordenação volta ao primeiro bloco
+    function resetAndApply() { limit = PAGE; apply(); }
+
     [search, power, sort].forEach(function (el) {
       if (!el) return;
-      el.addEventListener("input", apply);
-      el.addEventListener("change", apply);
+      el.addEventListener("input", resetAndApply);
+      el.addEventListener("change", resetAndApply);
     });
+
+    // "Ver mais" apenas amplia o limite, mantendo filtros e ordem atuais
+    if (more) {
+      more.addEventListener("click", function () {
+        limit += PAGE;
+        apply();
+      });
+    }
+
+    apply();
   }
 
   /* ---------------------------------------------- Filtros do histórico --- */
