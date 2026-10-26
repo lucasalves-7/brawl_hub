@@ -14,14 +14,25 @@ Plataforma de estatísticas de Brawl Stars construída como uma extensão do uni
 |------|---------|--------|
 | 1 | Fundação visual (paleta, tipografia, componentes) | ✅ Concluída |
 | 2 | Home e navegação | ✅ Concluída |
-| 3 | Dashboard demonstrativo | ⏳ Próxima |
-| 4 | Integração com a API da Supercell | ⏳ |
-| 5 | Brawlers e histórico | ⏳ |
+| 3 | Dashboard (agora com dados reais) | ✅ Concluída |
+| 4 | Integração com a API da Supercell | ✅ Concluída |
+| 5 | Página individual de Brawlers | ⏳ Próxima |
 | 6 | Clubes e rankings | ⏳ |
 | 7 | Histórico próprio | ⏳ |
 | 8 | Preparação para produção | ⏳ |
 
-O protótipo atual usa **dados fictícios de demonstração** e **artes originais em SVG**. Nenhum dado real é exibido ainda.
+### O que já consulta a API real
+
+- **`/perfil/<tag>/`** — dashboard do jogador: perfil, estatísticas gerais, distribuição de troféus (gráfico), grade de Brawlers com filtros, desempenho recente e histórico de partidas.
+- **`/exemplo/`** — redireciona para o perfil do líder global.
+
+**Fonte dos dados (plano, seção 10):**
+- *Grupo A (fornecido)*: troféus, recorde, vitórias por modo, nível, clube, lista de Brawlers.
+- *Grupo B (calculado)*: quantidade de Brawlers, distribuição de troféus e **aproveitamento da amostra** — sempre com o tamanho da amostra visível.
+
+> A API da Supercell **não fornece imagens**. Os retratos dos Brawlers são **avatares originais** gerados a partir do nome, mantendo a identidade própria do Brawl Hub.
+
+A chave da API fica em `.env` (não versionado). O cache evita novas consultas a cada interação.
 
 ---
 
