@@ -117,7 +117,8 @@
     <div class="card card--accent-green">
       <div class="card__title">Equipamentos</div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">Melhorias passivas do equipamento.</p>
-      <ul class="accessory-list">
+      <div class="gears-list-wrap" id="gears-list-wrap">
+      <ul class="accessory-list gears-list" id="gears-list">
         {% for gr in b.gears %}
         <li class="accessory">
           <span class="accessory__icon">
@@ -127,6 +128,18 @@
         </li>
         {% endfor %}
       </ul>
+      </div>
+      {% if b.gears|length > 2 %}
+      <button class="gears-toggle" id="gears-toggle" type="button"
+              aria-expanded="false" aria-controls="gears-list">
+        <span>Ver todos os equipamentos</span>
+        <svg class="gears-toggle__icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      {% endif %}
     </div>
     {% endif %}
 
@@ -190,4 +203,8 @@
 </section>
 
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/brawler-detail.js' %}" defer></script>
 {% endblock %}

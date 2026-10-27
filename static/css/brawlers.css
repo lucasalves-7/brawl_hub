@@ -134,6 +134,49 @@
 
 .accessory__name { font-weight: 800; font-size: var(--fs-sm); }
 
+/* Equipamentos: dois itens no estado inicial, com expansão suave. */
+.gears-list-wrap {
+  max-height: none;
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+}
+
+.gears-list-wrap.is-collapsed {
+  max-height: 0;
+}
+
+.gears-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+  padding: 0.35rem 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  color: var(--yellow);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid var(--yellow);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.gears-toggle:hover,
+.gears-toggle:focus-visible {
+  color: var(--sky);
+  border-color: var(--sky);
+}
+
+.gears-toggle__icon {
+  width: 1.1em;
+  height: 1.1em;
+  transition: transform 0.25s ease;
+}
+
+.gears-toggle[aria-expanded="true"] .gears-toggle__icon {
+  transform: rotate(180deg);
+}
+
 /* --------------------------------- Rodapé ------------------------------ */
 .brawler-foot {
   display: flex;
