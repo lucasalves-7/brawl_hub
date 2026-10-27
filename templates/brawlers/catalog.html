@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Brawlers — Brawl Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/components.css' %}">
+<link rel="stylesheet" href="{% static 'css/brawlers.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section catalog-hero">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <span class="tag tag--muted">Catálogo oficial</span>
+      <h1>Todos os <span class="accent">Brawlers</span></h1>
+      <p>Cada personagem com seu kit completo: Star Powers, Gadgets, Hypercharge e Gears.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    {% if error %}
+      <div class="card card--accent" style="text-align:center; padding: var(--sp-7) var(--sp-5);">
+        <h2 style="font-size: var(--fs-xl); margin-bottom: var(--sp-3);">{{ error.title }}</h2>
+        <p class="card__text">{{ error.message }}</p>
+      </div>
+    {% else %}
+
+      {# Busca no cliente sobre os dados já carregados #}
+      <div class="filters" style="grid-template-columns: 1fr;">
+        <input class="input" id="cat-search" type="search" placeholder="Buscar Brawler por nome…"
+               aria-label="Buscar Brawler por nome">
+      </div>
+      <p class="filter-count" id="cat-count">Mostrando {{ brawler_count }} de {{ brawler_count }}</p>
+
+      <div class="brawler-grid" id="catalog-grid">
+        {% for b in brawlers %}
+          <a class="brawler-card"
+             href="{% url 'brawlers:detail' b.id %}"
+             data-name="{{ b.name|lower }}">
+            <div class="brawler-card__art">
+              <img src="{{ b.image|default_if_none:b.avatar }}"
+                   data-fallback="{{ b.avatar }}"
+                   onerror="this.onerror=null;this.src=this.dataset.fallback"
+                   alt="Brawler {{ b.name }}" loading="lazy">
+              {% if b.hypercharges %}<span class="brawler-card__hc" title="Hypercharge">HC</span>{% endif %}
+            </div>
+            <h3 class="brawler-card__name">{{ b.name }}</h3>
+            <div class="brawler-card__sub">
+              <span class="tag tag--purple">{{ b.star_powers|length }} SP</span>
+              <span class="tag tag--sky">{{ b.gadgets|length }} G</span>
+            </div>
+          </a>
+        {% empty %}
+          <p class="card__text">Nenhum Brawler disponível no momento.</p>
+        {% endfor %}
+      </div>
+
+      <p class="empty-filter" id="cat-empty" hidden>Nenhum Brawler corresponde à busca.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% if not error %}
+<script src="{% static 'js/catalog.js' %}" defer></script>
+{% endif %}
+{% endblock %}

@@ -211,13 +211,13 @@
 
     <div class="brawler-grid" id="brawler-grid">
       {% for b in brawlers %}
-        <article class="brawler-card"
-                 data-name="{{ b.name|lower }}"
-                 data-trophies="{{ b.trophies }}"
-                 data-highest="{{ b.highest_trophies }}"
-                 data-power="{{ b.power }}"
-                 data-rank="{{ b.rank }}"
-                 tabindex="0">
+        <a class="brawler-card"
+           href="{% url 'brawlers:detail' b.id %}"
+           data-name="{{ b.name|lower }}"
+           data-trophies="{{ b.trophies }}"
+           data-highest="{{ b.highest_trophies }}"
+           data-power="{{ b.power }}"
+           data-rank="{{ b.rank }}">
           <div class="brawler-card__art">
             <img src="{{ b.image|default_if_none:b.avatar }}"
                  data-fallback="{{ b.avatar }}"
@@ -234,7 +234,7 @@
             <span class="tag tag--purple">Rank {{ b.rank }}</span>
             <span class="text-muted">Rec. {{ b.highest_trophies }}</span>
           </div>
-        </article>
+        </a>
       {% empty %}
         <p class="card__text">Nenhum Brawler encontrado no perfil.</p>
       {% endfor %}

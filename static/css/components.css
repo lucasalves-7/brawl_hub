@@ -309,6 +309,8 @@
   box-shadow: var(--shadow-card);
   cursor: pointer;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.16s var(--ease-pop), border-color 0.16s ease, box-shadow 0.16s ease;
 }
 

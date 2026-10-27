@@ -83,3 +83,39 @@ def player_icon_image(icon_id: int | None) -> str | None:
     if not icon_id:
         return None
     return f"{BRAWLIFY_CDN}/profile-icons/regular/{icon_id}.png"
+
+
+# ---------------------------------------------------------------------------
+# Imagens do catálogo global (Fase 5) — mesmas fontes/variantes do CDN.
+# A API devolve só IDs; o CDN tem ícones reais para cada acessório.
+# ---------------------------------------------------------------------------
+def brawler_model_image(brawler_id: int | None) -> str | None:
+    """Retrato de corpo inteiro do Brawler (herói da ficha)."""
+    if not brawler_id:
+        return None
+    return f"{BRAWLIFY_CDN}/brawlers/model/{brawler_id}.png"
+
+
+def brawler_portrait_image(brawler_id: int | None) -> str | None:
+    """Retrato largo (paisagem) do Brawler."""
+    if not brawler_id:
+        return None
+    return f"{BRAWLIFY_CDN}/brawlers/portraits/{brawler_id}.png"
+
+
+def star_power_image(star_power_id: int | None) -> str | None:
+    if not star_power_id:
+        return None
+    return f"{BRAWLIFY_CDN}/star-powers/regular/{star_power_id}.png"
+
+
+def gadget_image(gadget_id: int | None) -> str | None:
+    if not gadget_id:
+        return None
+    return f"{BRAWLIFY_CDN}/gadgets/regular/{gadget_id}.png"
+
+
+def gear_image(gear_id: int | None) -> str | None:
+    if not gear_id:
+        return None
+    return f"{BRAWLIFY_CDN}/gears/regular/{gear_id}.png"

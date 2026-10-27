@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ b.name }} — Brawl Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/brawlers.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if error %}
+<section class="section">
+  <div class="container" style="max-width: 640px;">
+    <div class="card card--accent" style="text-align:center; padding: var(--sp-7) var(--sp-5);">
+      <h1 style="font-size: var(--fs-2xl); margin-bottom: var(--sp-3);">{{ error.title }}</h1>
+      <p class="card__text">{{ error.message }}</p>
+      <p style="margin-top: var(--sp-4);"><a href="{% url 'brawlers:catalog' %}">← Voltar ao catálogo</a></p>
+    </div>
+  </div>
+</section>
+
+{% else %}
+
+{# ---- Herói: retrato grande + nome ---- #}
+<section class="brawler-hero">
+  <div class="container brawler-hero__inner">
+    <nav class="breadcrumb" aria-label="Trilha de navegação">
+      <a href="{% url 'core:home' %}">Início</a>
+      <span aria-hidden="true">/</span>
+      <a href="{% url 'brawlers:catalog' %}">Brawlers</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ b.name }}</span>
+    </nav>
+
+    <div class="brawler-hero__art">
+      <img src="{{ b.model_image|default_if_none:b.image|default_if_none:b.avatar }}"
+           data-fallback="{{ b.avatar }}"
+           onerror="this.onerror=null;this.src=this.dataset.fallback"
+           alt="{{ b.name }}">
+    </div>
+
+    <div class="brawler-hero__meta">
+      <h1>{{ b.name }}</h1>
+      <div class="chip-row">
+        <span class="tag tag--yellow">{{ b.accessory_count }} acessórios</span>
+        {% if b.star_powers %}<span class="tag tag--purple">{{ b.star_powers|length }} Star Power{{ b.star_powers|length|pluralize }}</span>{% endif %}
+        {% if b.gadgets %}<span class="tag tag--sky">{{ b.gadgets|length }} Gadget{{ b.gadgets|length|pluralize }}</span>{% endif %}
+        {% if has_hypercharge %}<span class="tag tag--green">Hypercharge</span>{% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: var(--sp-5);">
+  <div class="container brawler-layout">
+
+    {# ---- Star Powers ---- #}
+    {% if b.star_powers %}
+    <div class="card card--accent-sky">
+      <div class="card__title">Star Powers</div>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Habilidades especiais desbloqueáveis.</p>
+      <ul class="accessory-list">
+        {% for sp in b.star_powers %}
+        <li class="accessory">
+          <span class="accessory__icon">
+            {% if sp.image %}<img src="{{ sp.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">SP</span>{% endif %}
+          </span>
+          <span class="accessory__name">{{ sp.name }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {# ---- Gadgets ---- #}
+    {% if b.gadgets %}
+    <div class="card card--accent">
+      <div class="card__title">Gadgets</div>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Ativáveis em partida, com recarga limitada.</p>
+      <ul class="accessory-list">
+        {% for g in b.gadgets %}
+        <li class="accessory">
+          <span class="accessory__icon">
+            {% if g.image %}<img src="{{ g.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">G</span>{% endif %}
+          </span>
+          <span class="accessory__name">{{ g.name }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {# ---- Hypercharge ---- #}
+    {% if b.hypercharges %}
+    <div class="card card--accent-purple">
+      <div class="card__title">Hypercharge</div>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Estado máximo do Brawler.</p>
+      <ul class="accessory-list">
+        {% for h in b.hypercharges %}
+        <li class="accessory">
+          <span class="accessory__icon accessory__icon--hc">
+            <span class="accessory__ph">HC</span>
+          </span>
+          <span class="accessory__name">{{ h.name }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {# ---- Gears ---- #}
+    {% if b.gears %}
+    <div class="card card--accent-green">
+      <div class="card__title">Gears</div>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Melhorias passivas do equipamento.</p>
+      <ul class="accessory-list">
+        {% for gr in b.gears %}
+        <li class="accessory">
+          <span class="accessory__icon">
+            {% if gr.image %}<img src="{{ gr.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">GE</span>{% endif %}
+          </span>
+          <span class="accessory__name">{{ gr.name }}{% if gr.level %} <span class="text-muted">· Nv {{ gr.level }}</span>{% endif %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+  </div>
+
+  {# Rodapé da ficha: aviso de independência + volta #}
+  <div class="container">
+    <div class="brawler-foot">
+      <a class="btn btn--ghost" href="{% url 'brawlers:catalog' %}">← Voltar ao catálogo</a>
+      <p class="text-muted" style="font-size: var(--fs-xs); max-width: 60ch;">
+        Dados do kit fornecidos pela API oficial do Brawl Stars. Este projeto é independente e
+        não é afiliado, patrocinado ou aprovado pela Supercell.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+{% endblock %}

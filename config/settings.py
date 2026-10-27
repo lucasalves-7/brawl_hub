@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # Apps do Brawl Hub
     "apps.core",
     "apps.players",
+    "apps.brawlers",
 ]
 
 MIDDLEWARE = [
