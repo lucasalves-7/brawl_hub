@@ -3,7 +3,11 @@ from django.urls import reverse
 
 from services import cache as hub_cache
 from services import statistics as stats
-from services.brawler_art import brawler_avatar
+from services.brawler_art import (
+    brawler_avatar,
+    brawler_image,
+    player_icon_image,
+)
 from services.supercell_api import (
     SupercellAPIError,
     SupercellClient,
@@ -50,11 +54,15 @@ def player_profile(request, tag: str):
         return render(request, "players/profile.html", context)
 
     player = stats.normalize_player(raw)
+    # Avatar gerado (monograma) como fallback; o ícone real vem do CDN.
     player["avatar"] = brawler_avatar(player["name"])
+    player["icon_image"] = player_icon_image(raw.get("icon", {}).get("id"))
 
     brawlers = [stats.normalize_brawler(b) for b in raw.get("brawlers", [])]
     for b in brawlers:
+        # Retrato real do CDN + monograma gerado como fallback.
         b["avatar"] = brawler_avatar(b["raw_name"], b["id"])
+        b["image"] = brawler_image(b["id"])
 
     distribution = stats.trophy_distribution(brawlers, top=10)
     perf = stats.recent_performance(battlelog, player["tag"])

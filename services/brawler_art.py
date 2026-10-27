@@ -58,3 +58,28 @@ def brawler_avatar(name: str | None, _brawler_id: int | None = None) -> str:
         "</svg>"
     )
     return "data:image/svg+xml," + quote(svg, safe="")
+
+
+# ---------------------------------------------------------------------------
+# Imagens REAIS dos Brawlers.
+#
+# A API da Supercell não devolve URLs de imagem — só IDs. Usamos o CDN público
+# do Brawlify (assets extraídos do jogo / Fan Kit oficial), que é feito para ser
+# linkado por ID. Se alguma imagem falhar (brawler novo ainda sem asset), o
+# avatar gerado acima entra como fallback no front-end.
+# ---------------------------------------------------------------------------
+BRAWLIFY_CDN = "https://cdn.brawlify.com"
+
+
+def brawler_image(brawler_id: int | None) -> str | None:
+    """Retrato limpo do Brawler (sem moldura, preenche o tile)."""
+    if not brawler_id:
+        return None
+    return f"{BRAWLIFY_CDN}/brawlers/borderless/{brawler_id}.png"
+
+
+def player_icon_image(icon_id: int | None) -> str | None:
+    """Ícone de perfil real escolhido pelo jogador."""
+    if not icon_id:
+        return None
+    return f"{BRAWLIFY_CDN}/profile-icons/regular/{icon_id}.png"
