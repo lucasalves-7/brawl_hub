@@ -71,10 +71,18 @@
 /* --------------------------- Layout das seções ------------------------- */
 .brawler-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--sp-5);
   align-items: start;
   margin-bottom: var(--sp-6);
+}
+
+/* Cada seção é uma célula independente da grade: a expansão dos
+   equipamentos altera apenas a altura da própria linha, sem sobrepor o card
+   vizinho ou deslocar suas colunas. */
+.brawler-layout > .card {
+  min-width: 0;
+  align-self: start;
 }
 
 /* ------------------------------ Acessórios ----------------------------- */

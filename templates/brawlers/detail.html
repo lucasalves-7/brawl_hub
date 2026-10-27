@@ -58,16 +58,16 @@
 <section class="section" style="padding-top: var(--sp-5);">
   <div class="container brawler-layout">
 
-    {# ---- Star Powers ---- #}
+    {# ---- Poderes de Estrela ---- #}
     {% if b.star_powers %}
     <div class="card card--accent-sky">
-      <div class="card__title">Poderes de estrela</div>
+      <div class="card__title">Poderes de Estrela</div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">Habilidades especiais desbloqueáveis.</p>
       <ul class="accessory-list">
         {% for sp in b.star_powers %}
         <li class="accessory">
           <span class="accessory__icon">
-            {% if sp.image %}<img src="{{ sp.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">SP</span>{% endif %}
+            {% if sp.image %}<img src="{{ sp.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">PE</span>{% endif %}
           </span>
           <span class="accessory__name">{{ sp.name }}</span>
         </li>
@@ -76,16 +76,16 @@
     </div>
     {% endif %}
 
-    {# ---- Gadgets ---- #}
+    {# ---- Acessórios ---- #}
     {% if b.gadgets %}
     <div class="card card--accent">
-      <div class="card__title">Gadgets</div>
-      <p class="card__text" style="margin-bottom: var(--sp-4);">Ativáveis em partida, com recarga limitada.</p>
+      <div class="card__title">Acessórios</div>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Disponíveis durante as partidas, com usos limitados.</p>
       <ul class="accessory-list">
         {% for g in b.gadgets %}
         <li class="accessory">
           <span class="accessory__icon">
-            {% if g.image %}<img src="{{ g.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">G</span>{% endif %}
+            {% if g.image %}<img src="{{ g.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">AC</span>{% endif %}
           </span>
           <span class="accessory__name">{{ g.name }}</span>
         </li>
@@ -94,11 +94,11 @@
     </div>
     {% endif %}
 
-    {# ---- Hypercharge ---- #}
+    {# ---- Hipercarga ---- #}
     {% if b.hypercharges %}
     <div class="card card--accent-purple">
       <div class="card__title">Hipercarga</div>
-      <p class="card__text" style="margin-bottom: var(--sp-4);">Estado máximo do Brawler.</p>
+      <p class="card__text" style="margin-bottom: var(--sp-4);">Nível máximo do Brawler.</p>
       <ul class="accessory-list">
         {% for h in b.hypercharges %}
         <li class="accessory">
@@ -112,7 +112,7 @@
     </div>
     {% endif %}
 
-    {# ---- Gears ---- #}
+    {# ---- Equipamentos ---- #}
     {% if b.gears %}
     <div class="card card--accent-green">
       <div class="card__title">Equipamentos</div>
@@ -122,7 +122,7 @@
         {% for gr in b.gears %}
         <li class="accessory">
           <span class="accessory__icon">
-            {% if gr.image %}<img src="{{ gr.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">GE</span>{% endif %}
+            {% if gr.image %}<img src="{{ gr.image }}" alt="" loading="lazy">{% else %}<span class="accessory__ph">EQ</span>{% endif %}
           </span>
           <span class="accessory__name">{{ gr.name }}{% if gr.level %} <span class="text-muted">· Nv {{ gr.level }}</span>{% endif %}</span>
         </li>

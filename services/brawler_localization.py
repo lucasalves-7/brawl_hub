@@ -17,7 +17,7 @@ EXACT = {
     "DAMAGE": "Dano",
     "VISION": "Visão",
     "SHIELD": "Escudo",
-    "GADGET COOLDOWN": "Recarga de Gadget",
+    "GADGET COOLDOWN": "Recarga de Acessório",
     "RELOAD SPEED": "Velocidade de Recarga",
     "DOUBLE BARREL": "Canos Duplos",
     "STAR POWER": "Poder de Estrela",
