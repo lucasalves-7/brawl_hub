@@ -42,9 +42,9 @@
       <div class="club-card__meta">
         <h1>{{ club.name }}</h1>
         <div class="chip-row">
-          <span class="chip">{{ club.tag }}</span>
-          <span class="tag tag--sky">{{ club.type_label }}</span>
-          <span class="tag tag--muted">{{ club.member_count }}/30 membros</span>
+           <span class="meta-link">{{ club.tag }}</span>
+           <span class="meta-label meta-label--sky">{{ club.type_label }}</span>
+           <span class="meta-label meta-label--muted">{{ club.member_count }}/30 membros</span>
         </div>
         {% if club.description %}
           <p class="club-card__desc">{{ club.description }}</p>
@@ -69,7 +69,7 @@
   <div class="container">
     <div class="brawlers-head">
       <h2>Membros</h2>
-      <span class="tag tag--muted">{{ club.member_count }} no clube</span>
+       <span class="meta-label meta-label--muted">{{ club.member_count }} no clube</span>
     </div>
 
     <p class="rank-status" id="rank-status"></p>

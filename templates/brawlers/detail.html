@@ -44,10 +44,10 @@
     <div class="brawler-hero__meta">
       <h1>{{ b.name }}</h1>
       <div class="chip-row">
-        <span class="tag tag--yellow">{{ b.accessory_count }} acessórios</span>
-        {% if b.star_powers %}<span class="tag tag--purple">{{ b.star_powers|length }} poder{{ b.star_powers|length|pluralize:"es" }} de estrela</span>{% endif %}
-        {% if b.gadgets %}<span class="tag tag--sky">{{ b.gadgets|length }} gadget{{ b.gadgets|length|pluralize }}</span>{% endif %}
-        {% if has_hypercharge %}<span class="tag tag--green">hipercarga</span>{% endif %}
+         <span class="meta-label meta-label--yellow">{{ b.accessory_count }} acessórios</span>
+        {% if b.star_powers %}<span class="meta-label meta-label--purple">{{ b.star_powers|length }} poder{{ b.star_powers|length|pluralize:"es" }} de estrela</span>{% endif %}
+        {% if b.gadgets %}<span class="meta-label meta-label--sky">{{ b.gadgets|length }} gadget{{ b.gadgets|length|pluralize }}</span>{% endif %}
+        {% if has_hypercharge %}<span class="meta-label meta-label--green">hipercarga</span>{% endif %}
       </div>
       <p class="brawler-hero__description">{{ b.description }}</p>
       <small class="text-muted">Descrição: {{ b.description_source }}</small>
@@ -138,7 +138,7 @@
     <div class="card card--accent-purple">
       <div class="brawlers-head" style="margin-bottom: var(--sp-3);">
         <h3 class="card__title" style="margin:0;">Top mundial com {{ b.name }}</h3>
-        <span class="tag tag--muted">{{ top_country_label }}</span>
+         <span class="meta-label meta-label--muted">{{ top_country_label }}</span>
       </div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">
         Quem tem mais troféus com este Brawler, conforme a API oficial.

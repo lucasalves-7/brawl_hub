@@ -123,36 +123,39 @@
   font-size: var(--fs-sm);
 }
 
-/* ======================= ETIQUETAS / BADGES ============================= */
-.tag {
+/* ======================== METADADOS TEMÁTICOS ============================
+   Metadados continuam reutilizáveis, mas não são mais cápsulas decorativas.
+   A hierarquia vem da tipografia, cor e pequenos acentos — mais próxima de
+   uma interface de jogo e menos de um dashboard corporativo. */
+.meta-label {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
-  padding: 0.2rem 0.7rem;
+  padding: 0;
   font-family: var(--font-body);
   font-weight: 800;
   font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  border-radius: var(--radius-pill);
-  border: 2px solid transparent;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  background: none;
+  border: 0;
   line-height: 1.5;
 }
 
-.tag--yellow { background: rgba(255, 206, 40, 0.16); color: var(--yellow); border-color: rgba(255, 206, 40, 0.4); }
-.tag--sky    { background: rgba(62, 200, 240, 0.16); color: var(--sky); border-color: rgba(62, 200, 240, 0.4); }
-.tag--purple { background: rgba(144, 97, 249, 0.18); color: var(--purple); border-color: rgba(144, 97, 249, 0.45); }
-.tag--green  { background: rgba(61, 220, 132, 0.16); color: var(--green); border-color: rgba(61, 220, 132, 0.4); }
-.tag--red    { background: rgba(255, 77, 94, 0.16); color: var(--red); border-color: rgba(255, 77, 94, 0.4); }
-.tag--orange { background: rgba(255, 159, 28, 0.16); color: var(--orange); border-color: rgba(255, 159, 28, 0.4); }
-.tag--muted  { background: rgba(255, 255, 255, 0.06); color: var(--text-muted); border-color: var(--line-strong); }
+.meta-label--yellow { color: var(--yellow); }
+.meta-label--sky    { color: var(--sky); }
+.meta-label--purple { color: var(--purple); }
+.meta-label--green  { color: var(--green); }
+.meta-label--red    { color: var(--red); }
+.meta-label--orange { color: var(--orange); }
+.meta-label--muted  { color: var(--text-muted); }
 
-.tag__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  flex: none;
+/* Kicker de seção: destaque tipográfico, sem cápsula ou caixa alta forçada. */
+.section-head > .meta-label,
+.hero__eyebrow > .meta-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
 }
 
 /* ========================= PÍLULA DE TROFÉUS ============================ */
@@ -387,20 +390,20 @@
 
 /* ============================== CHIP ==================================== */
 /* Chip de informação compacto (clube, região, modo) */
-.chip {
+.meta-link {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
-  padding: 0.25rem 0.7rem;
+  padding: 0;
   font-size: var(--fs-sm);
   font-weight: 700;
   color: var(--text-soft);
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid var(--line);
-  border-radius: var(--radius-pill);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid var(--line-strong);
 }
 
-.chip svg {
+.meta-link svg {
   width: 1em;
   height: 1em;
   color: var(--sky);
@@ -625,8 +628,8 @@
   .btn { padding: 0.6rem 1rem; font-size: var(--fs-sm); }
   .btn--sm { padding: 0.4rem 0.85rem; }
   .card { padding: var(--sp-3); border-radius: var(--radius); }
-  .tag { padding: 0.15rem 0.55rem; letter-spacing: 0.04em; }
-  .chip { padding: 0.2rem 0.55rem; font-size: var(--fs-xs); }
+  .meta-label { padding: 0; letter-spacing: 0.02em; }
+  .meta-link { padding: 0; font-size: var(--fs-xs); }
   .input { padding: 0.7rem 0.9rem; font-size: var(--fs-base); }
   .brawler-grid { gap: var(--sp-2); grid-template-columns: repeat(2, 1fr); }
   .brawler-card__name { font-size: var(--fs-base); }

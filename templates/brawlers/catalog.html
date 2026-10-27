@@ -11,7 +11,7 @@
 <section class="section catalog-hero">
   <div class="container">
     <div class="section-head section-head--center">
-      <span class="tag tag--muted">Catálogo oficial</span>
+       <span class="meta-label meta-label--muted">Catálogo oficial</span>
       <h1>Todos os <span class="accent">Brawlers</span></h1>
        <p>Cada personagem com seu kit completo: poderes de estrela, gadgets, hipercarga e equipamentos.</p>
     </div>
@@ -48,8 +48,8 @@
             </div>
             <h3 class="brawler-card__name">{{ b.name }}</h3>
             <div class="brawler-card__sub">
-              <span class="tag tag--purple">{{ b.star_powers|length }} SP</span>
-              <span class="tag tag--sky">{{ b.gadgets|length }} G</span>
+               <span class="meta-label meta-label--purple">{{ b.star_powers|length }} SP</span>
+               <span class="meta-label meta-label--sky">{{ b.gadgets|length }} G</span>
             </div>
           </a>
         {% empty %}
