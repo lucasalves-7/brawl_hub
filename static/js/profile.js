@@ -80,7 +80,7 @@
     if (!cards.length) return;
 
     var total = cards.length;
-    var PAGE = 24;      // quantos cards mostrar por vez
+    var PAGE = 12;      // quantos cards mostrar por vez
     var limit = PAGE;   // limite atual (ampliado pelo "Ver mais")
 
     // Pré-carrega os valores para ordenar sem reler o DOM toda vez
