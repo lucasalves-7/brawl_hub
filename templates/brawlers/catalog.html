@@ -44,13 +44,8 @@
                    data-fallback="{{ b.avatar }}"
                    onerror="this.onerror=null;this.src=this.dataset.fallback"
                    alt="Brawler {{ b.name }}" loading="lazy">
-              {% if b.hypercharges %}<span class="brawler-card__hc" title="Hipercarga">HC</span>{% endif %}
             </div>
             <h3 class="brawler-card__name">{{ b.name }}</h3>
-            <div class="brawler-card__sub">
-               <span class="meta-label meta-label--purple">{{ b.star_powers|length }} SP</span>
-               <span class="meta-label meta-label--sky">{{ b.gadgets|length }} G</span>
-            </div>
           </a>
         {% empty %}
           <p class="card__text">Nenhum Brawler disponível no momento.</p>
