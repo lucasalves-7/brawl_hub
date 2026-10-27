@@ -12,21 +12,22 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 
-# Rótulos legíveis para os modos de jogo (a API devolve camelCase).
+# Rótulos legíveis para os modos de jogo, em português (a API devolve
+# camelCase em inglês).
 MODE_LABELS = {
-    "gemGrab": "Gem Grab",
-    "brawlBall": "Brawl Ball",
+    "gemGrab": "Mina de Gemas",
+    "brawlBall": "Bola no Pé",
     "bounty": "Guerra de Estrelas",
     "heist": "Cofre",
-    "knockout": "Knockout",
+    "knockout": "Nocaute",
     "hotZone": "Zona Quente",
     "duel": "Duelo",
-    "payload": "Payload",
-    "wipeout": "Wipeout",
-    "brawlBall5V5": "Brawl Ball 5v5",
-    "gemGrab3V3": "Gem Grab 3v3",
-    "soloShowdown": "Showdown Solo",
-    "duoShowdown": "Showdown Dupla",
+    "payload": "Escolta",
+    "wipeout": "Aniquilação",
+    "brawlBall5V5": "Bola no Pé 5v5",
+    "gemGrab3V3": "Mina de Gemas 3v3",
+    "soloShowdown": "Combate Solo",
+    "duoShowdown": "Combate Dupla",
     "roboRumble": "Robô Rumble",
     "bigGame": "Caça ao Monstro",
     "bossFight": "Luta contra o Chefe",

@@ -13,7 +13,7 @@
     <div class="section-head section-head--center">
       <span class="tag tag--muted">Catálogo oficial</span>
       <h1>Todos os <span class="accent">Brawlers</span></h1>
-      <p>Cada personagem com seu kit completo: Star Powers, Gadgets, Hypercharge e Gears.</p>
+       <p>Cada personagem com seu kit completo: poderes de estrela, gadgets, hipercarga e equipamentos.</p>
     </div>
   </div>
 </section>
@@ -44,7 +44,7 @@
                    data-fallback="{{ b.avatar }}"
                    onerror="this.onerror=null;this.src=this.dataset.fallback"
                    alt="Brawler {{ b.name }}" loading="lazy">
-              {% if b.hypercharges %}<span class="brawler-card__hc" title="Hypercharge">HC</span>{% endif %}
+              {% if b.hypercharges %}<span class="brawler-card__hc" title="Hipercarga">HC</span>{% endif %}
             </div>
             <h3 class="brawler-card__name">{{ b.name }}</h3>
             <div class="brawler-card__sub">

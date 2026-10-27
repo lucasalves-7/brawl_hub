@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from services import brawlers as catalog
 from services import rankings as rank_svc
+from services.brawler_descriptions import description_for
 from services.brawler_art import (
     brawler_avatar,
     brawler_image,
@@ -67,6 +68,7 @@ def brawler_detail(request, brawler_id: int):
         raise Http404("Brawler não encontrado no catálogo.")
 
     _attach_images(b)
+    description_for(b)
 
     # "Top mundial com este Brawler" (Fase 6) — degrada em silêncio se falhar.
     top: list[dict] = []

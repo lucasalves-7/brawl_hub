@@ -45,10 +45,12 @@
       <h1>{{ b.name }}</h1>
       <div class="chip-row">
         <span class="tag tag--yellow">{{ b.accessory_count }} acessórios</span>
-        {% if b.star_powers %}<span class="tag tag--purple">{{ b.star_powers|length }} Star Power{{ b.star_powers|length|pluralize }}</span>{% endif %}
-        {% if b.gadgets %}<span class="tag tag--sky">{{ b.gadgets|length }} Gadget{{ b.gadgets|length|pluralize }}</span>{% endif %}
-        {% if has_hypercharge %}<span class="tag tag--green">Hypercharge</span>{% endif %}
+        {% if b.star_powers %}<span class="tag tag--purple">{{ b.star_powers|length }} poder{{ b.star_powers|length|pluralize:"es" }} de estrela</span>{% endif %}
+        {% if b.gadgets %}<span class="tag tag--sky">{{ b.gadgets|length }} gadget{{ b.gadgets|length|pluralize }}</span>{% endif %}
+        {% if has_hypercharge %}<span class="tag tag--green">hipercarga</span>{% endif %}
       </div>
+      <p class="brawler-hero__description">{{ b.description }}</p>
+      <small class="text-muted">Descrição: {{ b.description_source }}</small>
     </div>
   </div>
 </section>
@@ -59,7 +61,7 @@
     {# ---- Star Powers ---- #}
     {% if b.star_powers %}
     <div class="card card--accent-sky">
-      <div class="card__title">Star Powers</div>
+      <div class="card__title">Poderes de estrela</div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">Habilidades especiais desbloqueáveis.</p>
       <ul class="accessory-list">
         {% for sp in b.star_powers %}
@@ -95,7 +97,7 @@
     {# ---- Hypercharge ---- #}
     {% if b.hypercharges %}
     <div class="card card--accent-purple">
-      <div class="card__title">Hypercharge</div>
+      <div class="card__title">Hipercarga</div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">Estado máximo do Brawler.</p>
       <ul class="accessory-list">
         {% for h in b.hypercharges %}
@@ -113,7 +115,7 @@
     {# ---- Gears ---- #}
     {% if b.gears %}
     <div class="card card--accent-green">
-      <div class="card__title">Gears</div>
+      <div class="card__title">Equipamentos</div>
       <p class="card__text" style="margin-bottom: var(--sp-4);">Melhorias passivas do equipamento.</p>
       <ul class="accessory-list">
         {% for gr in b.gears %}
