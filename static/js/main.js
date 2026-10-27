@@ -123,12 +123,4 @@
     });
   }
 
-  /* ------------------------------------------------ Preencher tag-exemplo -- */
-  var fillBtn = document.getElementById("fill-example");
-  if (fillBtn) {
-    fillBtn.addEventListener("click", function () {
-      // O backend escolhe um jogador real (líder global) para o exemplo.
-      window.location.href = "/exemplo/";
-    });
-  }
 })();

@@ -49,19 +49,24 @@
         <span>A tag começa com <strong>#</strong> e aparece no seu perfil do jogo.</span>
       </p>
 
-      <p class="hero__example">
-        Sem tag à mão?
-        <button type="button" id="fill-example">ver um exemplo</button>
-      </p>
     </div>
 
     {# ---- Composição de ilustrações originais ---- #}
     <div class="hero__art" aria-hidden="true">
+      <div class="hero__halo"></div>
+      <span class="hero__star hero__star--one">★</span>
+      <span class="hero__star hero__star--two">✦</span>
+      <span class="hero__star hero__star--three">★</span>
+      <div class="hero__progress-card">
+        <img src="{% static 'img/trophy.svg' %}" alt="">
+        <span><strong>EVOLUÇÃO</strong><small>próximo troféu</small></span>
+      </div>
       <div class="brawler-float b1"><img src="{% static 'img/brawlers/bolt.svg' %}" alt=""></div>
       <div class="brawler-float b2"><img src="{% static 'img/brawlers/juno.svg' %}" alt=""></div>
       <div class="brawler-float b3"><img src="{% static 'img/brawlers/vex.svg' %}" alt=""></div>
       <div class="brawler-float b4"><img src="{% static 'img/brawlers/pixel.svg' %}" alt=""></div>
       <img class="hero__trophy" src="{% static 'img/trophy.svg' %}" alt="">
+      <div class="hero__burst">+</div>
     </div>
   </div>
 </section>

@@ -82,6 +82,8 @@
   color: var(--text-muted);
 }
 
+.search__hint { margin-bottom: 0; }
+
 .search__hint[data-state="error"] { color: var(--red); }
 .search__hint[data-state="ok"] { color: var(--green); }
 
@@ -91,29 +93,33 @@
   flex: none;
 }
 
-.hero__example {
-  margin-top: var(--sp-2);
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-}
-
-.hero__example button {
-  font-weight: 800;
-  color: var(--sky);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.hero__example button:hover {
-  color: var(--yellow);
-}
-
 /* ------------------------------------------ Composição de ilustrações --- */
 .hero__art {
   position: relative;
   aspect-ratio: 1 / 1;
   max-width: 460px;
   margin-inline: auto;
+  isolation: isolate;
+}
+
+.hero__halo {
+  position: absolute;
+  inset: 16% 13%;
+  z-index: 0;
+  border: 3px solid rgba(62, 200, 240, 0.28);
+  border-radius: 42% 58% 52% 48%;
+  background: radial-gradient(circle, rgba(62, 200, 240, 0.2), rgba(11, 23, 51, 0) 68%);
+  transform: rotate(-12deg);
+  animation: halo-pulse 5s ease-in-out infinite;
+}
+
+.hero__halo::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border: 2px dashed rgba(255, 206, 40, 0.38);
+  border-radius: 50%;
+  transform: rotate(22deg);
 }
 
 .hero__art .brawler-float {
@@ -136,17 +142,84 @@
 /* Troféu flutuante decorativo */
 .hero__trophy {
   position: absolute;
-  top: 42%;
-  right: 40%;
-  width: 74px;
+  top: 47%;
+  left: 50%;
+  width: 112px;
   z-index: 5;
-  animation: float 4s ease-in-out infinite;
+  transform: translate(-50%, -50%);
+  animation: trophy-float 4s ease-in-out infinite;
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.5));
+}
+
+.hero__progress-card {
+  position: absolute;
+  right: 2%;
+  bottom: 12%;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0.55rem 0.75rem;
+  color: var(--text);
+  background: var(--surface-600);
+  border: 3px solid var(--yellow);
+  border-radius: var(--radius);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.28);
+  transform: rotate(4deg);
+  animation: card-in 0.7s var(--ease-pop) both 0.2s;
+}
+
+.hero__progress-card img { width: 30px; height: 30px; }
+.hero__progress-card span { display: flex; flex-direction: column; line-height: 1.05; }
+.hero__progress-card strong { color: var(--yellow); font-family: var(--font-display); font-size: var(--fs-sm); }
+.hero__progress-card small { color: var(--text-muted); font-size: var(--fs-xs); }
+
+.hero__star {
+  position: absolute;
+  z-index: 6;
+  font-family: var(--font-display);
+  color: var(--yellow);
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  animation: star-drift 3.4s ease-in-out infinite;
+}
+.hero__star--one { top: 19%; left: 43%; font-size: 2rem; }
+.hero__star--two { top: 34%; right: 7%; color: var(--sky); font-size: 1.35rem; animation-delay: .8s; }
+.hero__star--three { bottom: 23%; left: 5%; color: var(--purple); font-size: 1.45rem; animation-delay: 1.4s; }
+
+.hero__burst {
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  z-index: 4;
+  color: var(--yellow);
+  font: 900 2.5rem/1 var(--font-display);
+  transform: translate(-50%, -50%) rotate(15deg);
+  opacity: .7;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
+}
+
+@keyframes trophy-float {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-3deg); }
+  50% { transform: translate(-50%, calc(-50% - 12px)) rotate(3deg); }
+}
+
+@keyframes halo-pulse {
+  0%, 100% { opacity: .7; transform: rotate(-12deg) scale(.98); }
+  50% { opacity: 1; transform: rotate(-8deg) scale(1.02); }
+}
+
+@keyframes star-drift {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-8px) rotate(12deg); }
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(10px) rotate(4deg); }
+  to { opacity: 1; transform: translateY(0) rotate(4deg); }
 }
 
 @media (max-width: 900px) {
@@ -155,7 +228,9 @@
     gap: var(--sp-7);
   }
   .hero__lead { max-width: none; }
-  .hero__art { max-width: 360px; order: -1; }
+  /* No celular, busca e título vêm primeiro; a arte fica abaixo sem roubar
+     atenção nem espaço do formulário. */
+  .hero__art { max-width: 360px; order: 0; }
 }
 
 @media (max-width: 560px) {
@@ -163,6 +238,19 @@
     flex-direction: column;
   }
   .search .btn { width: 100%; }
+  .hero__art { max-width: 290px; }
+  .hero__trophy { width: 82px; }
+  .hero__progress-card { right: -2%; bottom: 8%; transform: scale(.86) rotate(4deg); }
+  .hero__star--one { font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__art *,
+  .hero__art::before,
+  .hero__art::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* Cartão do jogador */
