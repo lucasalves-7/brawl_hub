@@ -146,7 +146,12 @@
   text-overflow: ellipsis;
 }
 
-.rank-sub { font-size: var(--fs-xs); }
+.rank-sub {
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .rank-trophies { font-size: var(--fs-md); white-space: nowrap; }
 
@@ -262,4 +267,39 @@
   .club-card { flex-direction: column; text-align: center; }
   .club-card__meta .chip-row { justify-content: center; }
   .club-card__desc { margin-inline: auto; }
+}
+
+/* -------------------------- Celular (480px) ---------------------------- */
+@media (max-width: 480px) {
+  .rank-hero { padding-block: var(--sp-5) var(--sp-3); }
+
+  /* Abas ocupa a largura toda — alvos de toque maiores e sem rolagem */
+  .rank-tabs { margin-top: var(--sp-4); }
+  .rank-tab { flex: 1; padding: 0.5rem 0.6rem; font-size: var(--fs-sm); }
+
+  /* Seletor de região empilhado: select com largura total */
+  .rank-region { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .rank-region .input { min-width: 0; width: 100%; }
+
+  /* Cartão do clube mais compacto */
+  .club-hero { padding-block: var(--sp-5) 0; }
+  .club-card { padding: var(--sp-4); gap: var(--sp-4); border-width: 3px; }
+  .club-card__badge { width: 84px; height: 84px; }
+  .club-card__stats { gap: var(--sp-5); }
+  .club-card__meta h1 { font-size: clamp(1.4rem, 7vw, 2rem); }
+}
+
+/* -------------------------- Celular estreito (400px) ------------------- */
+@media (max-width: 400px) {
+  .rank-row {
+    grid-template-columns: 36px 40px 1fr auto;
+    gap: var(--sp-2);
+    padding: var(--sp-2);
+  }
+  .rank-pos { min-width: 32px; padding: 0.15rem 0.3rem; font-size: var(--fs-sm); }
+  .rank-avatar { width: 40px; height: 40px; }
+  .rank-trophies { font-size: var(--fs-base); }
+  .rank-trophies img { width: 15px; height: 15px; }
+  .rank-role { padding: 0.1rem 0.5rem; font-size: 0.7rem; }
+  .club-stat__value { font-size: var(--fs-xl); }
 }

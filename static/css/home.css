@@ -1,185 +1,8 @@
 /* =============================================================================
    BRAWL HUB — Home
-   Layout do cabeçalho, hero, prévia do produto, funcionalidades e rodapé.
+   Layout do hero, funcionalidades e rodapé.
+   (O cabeçalho/menu mobile vive no base.css, pois é comum a todas as páginas.)
    ========================================================================== */
-
-/* ============================== CABEÇALHO =============================== */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  height: var(--header-h);
-  display: flex;
-  align-items: center;
-  background: rgba(11, 23, 51, 0.82);
-  backdrop-filter: blur(12px);
-  border-bottom: 3px solid var(--line);
-}
-
-.header__inner {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-5);
-  width: 100%;
-}
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  flex: none;
-}
-
-.logo img {
-  width: 40px;
-  height: 40px;
-  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4));
-  transition: transform 0.2s var(--ease-pop);
-}
-
-.logo:hover img {
-  transform: rotate(-6deg) scale(1.06);
-}
-
-.logo__word {
-  font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  letter-spacing: 0.02em;
-  color: var(--text);
-  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
-  white-space: nowrap;
-}
-
-.logo__word span {
-  color: var(--yellow);
-}
-
-/* ---------------------------------------------------------- Navegação --- */
-.nav {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-1);
-  margin-inline-start: auto;
-}
-
-.nav__link {
-  position: relative;
-  padding: 0.5rem 0.9rem;
-  font-family: var(--font-display);
-  font-size: var(--fs-base);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--text-soft);
-  border-radius: var(--radius-sm);
-  transition: color 0.15s ease, background 0.15s ease;
-}
-
-.nav__link:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* Sublinhado amarelo que desliza ao passar o mouse */
-.nav__link::after {
-  content: "";
-  position: absolute;
-  left: 0.9rem;
-  right: 0.9rem;
-  bottom: 0.25rem;
-  height: 3px;
-  border-radius: var(--radius-pill);
-  background: var(--yellow);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.2s var(--ease-pop);
-}
-
-.nav__link:hover::after,
-.nav__link[aria-current="page"]::after {
-  transform: scaleX(1);
-}
-
-.nav__link[aria-current="page"] {
-  color: var(--yellow);
-}
-
-.header__cta {
-  margin-inline-start: var(--sp-3);
-}
-
-/* ------------------------------------------------------ Menu mobile ----- */
-.menu-toggle {
-  display: none;
-  margin-inline-start: auto;
-  width: 46px;
-  height: 46px;
-  align-items: center;
-  justify-content: center;
-  color: var(--text);
-  background: var(--surface-500);
-  border: 3px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
-}
-
-.menu-toggle:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
-}
-
-.menu-toggle svg {
-  width: 24px;
-  height: 24px;
-}
-
-@media (max-width: 900px) {
-  .nav,
-  .header__cta {
-    display: none;
-  }
-
-  .menu-toggle {
-    display: inline-flex;
-  }
-
-  /* Painel deslizante com o menu compacto */
-  .nav--open {
-    position: absolute;
-    top: var(--header-h);
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--sp-1);
-    margin: 0;
-    padding: var(--sp-4);
-    background: var(--bg-800);
-    border-bottom: 3px solid var(--line);
-    box-shadow: var(--shadow-pop);
-    animation: menu-drop 0.22s var(--ease-pop);
-  }
-
-  .nav--open .nav__link {
-    padding: 0.75rem 1rem;
-    font-size: var(--fs-md);
-  }
-
-  .nav--open .nav__link::after {
-    display: none;
-  }
-
-  .nav--open .header__cta {
-    display: flex;
-    margin: var(--sp-2) 0 0;
-  }
-}
-
-@keyframes menu-drop {
-  from { opacity: 0; transform: translateY(-12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* ================================ HERO ================================== */
 .hero {
@@ -520,4 +343,41 @@
 
 @media (max-width: 760px) {
   .footer__grid { grid-template-columns: 1fr; }
+}
+
+/* ========================== RESPONSIVO MOBILE =========================== */
+@media (max-width: 640px) {
+  .hero { padding-block: var(--sp-6) var(--sp-7); }
+  .hero__inner { gap: var(--sp-5); }
+  .hero__art { max-width: 300px; }
+  .hero__lead { font-size: var(--fs-base); margin-bottom: var(--sp-5); }
+  .search { padding: var(--sp-2); gap: var(--sp-2); }
+
+  .features__grid { gap: var(--sp-4); }
+  .feature { padding: var(--sp-5) var(--sp-4); }
+  .feature__icon { width: 64px; height: 64px; margin-bottom: var(--sp-3); }
+  .feature__icon svg { width: 32px; height: 32px; }
+
+  .player-card { padding: var(--sp-3) var(--sp-4); gap: var(--sp-3); }
+
+  .footer { margin-top: var(--sp-6); }
+  .footer__grid { gap: var(--sp-5); padding-block: var(--sp-6) var(--sp-4); }
+}
+
+@media (max-width: 480px) {
+  /* Título do hero um passo menor para não ocupar a tela toda */
+  .hero h1 { font-size: clamp(2rem, 8vw, 2.6rem); }
+  .hero__art { max-width: 250px; }
+  .hero__trophy { width: 54px; }
+
+  /* Cartão do jogador: arte menor e troféus rebaixados para a linha de baixo */
+  .player-card__art { width: 62px; height: 62px; }
+  .player-card__name { font-size: var(--fs-lg); }
+  .player-card__meta { min-width: 140px; }
+
+  .feature__icon { width: 56px; height: 56px; }
+  .feature__icon svg { width: 28px; height: 28px; }
+
+  .footer__bottom { justify-content: center; text-align: center; }
+  .footer__disclaimer { padding: var(--sp-3); }
 }

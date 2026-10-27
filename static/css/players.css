@@ -63,6 +63,13 @@
   margin-top: var(--sp-4);
 }
 
+/* Taxa de vitória em destaque — escala com a tela (evita 48px fixos no celular) */
+.perf-rate {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 7vw, var(--fs-3xl));
+  line-height: 1;
+}
+
 .perf-block h5 {
   font-family: var(--font-display);
   font-size: var(--fs-sm);
@@ -72,11 +79,7 @@
   margin-bottom: var(--sp-2);
 }
 
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-}
+/* .chip-row virou componente compartilhado (components.css). */
 
 .mode-row {
   display: grid;
@@ -99,62 +102,11 @@
   white-space: nowrap;
 }
 
-/* ------------------------------ Brawlers ------------------------------- */
-.brawlers-head {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-4);
-}
+/* Cabeçalho de bloco, filtros, paginação e estados vazios agora são
+   componentes compartilhados — ver components.css (usados por perfil,
+   catálogo, ficha, rankings e clube). */
 
-.brawlers-head h2 {
-  font-size: var(--fs-xl);
-}
-
-.filters {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-3);
-}
-
-.filter-count {
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  color: var(--text-muted);
-  margin-bottom: var(--sp-4);
-}
-
-.brawlers-more {
-  display: flex;
-  justify-content: center;
-  margin-top: var(--sp-5);
-}
-
-/* Selo de hypercharge no card */
-.brawler-card__hc {
-  position: absolute;
-  top: var(--sp-2);
-  left: var(--sp-2);
-  padding: .05rem .4rem;
-  font-family: var(--font-display);
-  font-size: .7rem;
-  letter-spacing: .04em;
-  color: #fff;
-  background: var(--purple);
-  border: 2px solid rgba(0,0,0,.3);
-  border-radius: var(--radius-xs);
-  box-shadow: 0 2px 0 var(--purple-shadow);
-}
-
-.brawler-card__sub {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-2);
-  font-size: var(--fs-xs);
-  margin-top: var(--sp-1);
-}
+/* Selo de hypercharge / sub-etiquetas do card -> components.css */
 
 /* ----------------------------- Histórico ------------------------------- */
 .battle-list {
@@ -219,58 +171,7 @@
   text-align: center;
 }
 
-/* ------------------------------ Paginação ------------------------------ */
-.pager {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--sp-2);
-  margin-top: var(--sp-3);
-}
-
-.pager-btn {
-  min-width: 42px;
-  padding: 0.45rem 0.85rem;
-  font-family: var(--font-display);
-  font-size: var(--fs-sm);
-  color: var(--text-soft);
-  background: var(--surface-500);
-  border: 2px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
-  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
-}
-
-.pager-btn:hover:not(:disabled) {
-  background: var(--surface-400);
-  color: var(--text);
-}
-
-.pager-btn:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
-}
-
-.pager-btn--active {
-  background: var(--yellow);
-  color: var(--on-yellow);
-  border-color: rgba(0, 0, 0, 0.28);
-  box-shadow: 0 3px 0 var(--yellow-shadow);
-}
-
-.pager-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Estado vazio de filtro */
-.empty-filter {
-  padding: var(--sp-5);
-  text-align: center;
-  color: var(--text-muted);
-  font-weight: 700;
-}
+/* Paginação e estado vazio -> components.css (também usados em rankings) */
 
 /* ----------------------------- Responsivo ------------------------------ */
 @media (max-width: 1000px) {
@@ -280,22 +181,46 @@
 
 @media (max-width: 720px) {
   .filters { grid-template-columns: 1fr; }
-  .mode-row { grid-template-columns: 100px 1fr auto; }
+  .mode-row { grid-template-columns: 92px 1fr auto; gap: var(--sp-2); }
   .battle-row {
-    grid-template-columns: 88px 1fr auto;
+    grid-template-columns: 84px 1fr auto;
     grid-template-areas:
       "result main time"
       "result brawler trophy";
+    gap: var(--sp-2);
+    padding: var(--sp-2) var(--sp-3);
   }
   .battle-row__result { grid-area: result; }
   .battle-row__main { grid-area: main; }
   .battle-row__brawler { grid-area: brawler; }
   .battle-row__time { grid-area: time; justify-self: end; }
+  .perf-counts { font-size: var(--fs-base); gap: var(--sp-2); }
 }
 
 @media (max-width: 520px) {
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .player-card--full { flex-direction: column; text-align: center; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); }
+  .player-card--full { flex-direction: column; text-align: center; padding: var(--sp-4); }
+  .player-card--full .player-card__art { width: 76px; height: 76px; }
+  .player-card--full .player-card__name { font-size: var(--fs-xl); }
   .player-card--full .player-card__tags { justify-content: center; }
   .player-card--full .player-card__trophies { text-align: center; }
+}
+
+/* Celular estreito: prioriza alvos de toque e reduz tipografia densa */
+@media (max-width: 400px) {
+  /* Modo: nome + taxa na linha de cima, barra em largura total embaixo */
+  .mode-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "label stat"
+      "bar bar";
+    row-gap: var(--sp-1);
+  }
+  .mode-row__label { grid-area: label; }
+  .mode-row__stat { grid-area: stat; justify-self: end; font-size: var(--fs-xs); }
+  .mode-row .progress { grid-area: bar; }
+  .battle-row__result { padding: 0.1rem 0.5rem; font-size: var(--fs-xs); }
+  .battle-row__main strong { font-size: var(--fs-xs); }
+  .battle-row__brawler { font-size: var(--fs-xs); }
+  /* .stat-tile é componente: regras móveis no components.css */
 }

@@ -112,6 +112,7 @@ input {
   text-align: center;
 }
 
+.section-head h1,
 .section-head h2 {
   font-size: var(--fs-2xl);
   margin-bottom: var(--sp-3);
@@ -167,5 +168,240 @@ input {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   CABEÇALHO E MENU MOBILE
+   Vive no base.css (e não no home.css) porque o header vem do base.html e é
+   comum a TODAS as páginas: home, perfil, catálogo, ficha, rankings e clube.
+   ========================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  background: rgba(11, 23, 51, 0.82);
+  backdrop-filter: blur(12px);
+  border-bottom: 3px solid var(--line);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  width: 100%;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s var(--ease-pop);
+}
+
+.logo:hover img {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.logo__word {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.logo__word span {
+  color: var(--yellow);
+}
+
+/* ---------------------------------------------------------- Navegação --- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-inline-start: auto;
+}
+
+.nav__link {
+  position: relative;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.nav__link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Sublinhado amarelo que desliza ao passar o mouse */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.25rem;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--yellow);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s var(--ease-pop);
+}
+
+.nav__link:hover::after,
+.nav__link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav__link[aria-current="page"] {
+  color: var(--yellow);
+}
+
+.header__cta {
+  margin-inline-start: var(--sp-3);
+}
+
+/* ------------------------------------------------------ Menu mobile ----- */
+.menu-toggle {
+  display: none;
+  margin-inline-start: auto;
+  width: 46px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  background: var(--surface-500);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.menu-toggle:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.menu-toggle svg {
+  width: 24px;
+  height: 24px;
+}
+
+@media (max-width: 900px) {
+  .nav,
+  .header__cta {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  /* Painel deslizante com o menu compacto */
+  .nav--open {
+    position: absolute;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-1);
+    margin: 0;
+    padding: var(--sp-4);
+    background: var(--bg-800);
+    border-bottom: 3px solid var(--line);
+    box-shadow: var(--shadow-pop);
+    animation: menu-drop 0.22s var(--ease-pop);
+  }
+
+  .nav--open .nav__link {
+    padding: 0.75rem 1rem;
+    font-size: var(--fs-md);
+  }
+
+  .nav--open .nav__link::after {
+    display: none;
+  }
+
+  .nav--open .header__cta {
+    display: flex;
+    margin: var(--sp-2) 0 0;
+  }
+}
+
+@keyframes menu-drop {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================================================
+   RESPONSIVIDADE MOBILE GLOBAL
+   Refinações que valem para toda a aplicação em telas pequenas. Ajusta o
+   container, a tipografia e o espaçamento para o conteúdo ficar proporcional
+   e confortável de usar com uma mão.
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Container mais enxuto — mais espaço útil para o conteúdo */
+  .container {
+    padding-inline: var(--sp-4);
+  }
+
+  /* Menos respiro vertical entre seções */
+  .section {
+    padding-block: var(--sp-6);
+  }
+
+  /* Títulos de seção um passo menores para não dominar a tela */
+  .section-head {
+    margin-bottom: var(--sp-5);
+  }
+
+  .section-head h1,
+  .section-head h2 {
+    font-size: var(--fs-xl);
+  }
+
+  .section-head p {
+    font-size: var(--fs-base);
+  }
+
+  /* Cabeçalho mais baixo: devolve espaço vertical para o conteúdo */
+  :root {
+    --header-h: 62px;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Telas muito estreitas: padding mínimo e logo menor */
+  .container {
+    padding-inline: var(--sp-3);
+  }
+
+  .logo img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .logo__word {
+    font-size: var(--fs-md);
   }
 }

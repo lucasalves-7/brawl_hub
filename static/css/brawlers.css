@@ -26,25 +26,13 @@
   overflow: hidden;
 }
 
-.breadcrumb {
+/* O visual base do .breadcrumb vive no components.css (comum a todas as
+   páginas). Aqui só a posição absoluta dentro do herói da ficha. */
+.brawler-hero__inner > .breadcrumb {
   position: absolute;
   top: var(--sp-4);
   left: var(--sp-6);
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  color: var(--text-muted);
 }
-
-.breadcrumb a {
-  color: var(--text-soft);
-  text-decoration: none;
-}
-
-.breadcrumb a:hover { color: var(--yellow); }
-.breadcrumb [aria-current="page"] { color: var(--text); }
 
 .brawler-hero__art {
   flex: 0 0 auto;
@@ -156,7 +144,7 @@
     text-align: center;
     padding-top: var(--sp-7);
   }
-  .breadcrumb {
+  .brawler-hero__inner > .breadcrumb {
     position: static;
     justify-content: center;
     margin-bottom: var(--sp-3);
@@ -165,4 +153,30 @@
   .brawler-hero__art { margin-top: 0; }
   .brawler-hero__meta { padding-bottom: 0; }
   .brawler-hero__meta .chip-row { justify-content: center; }
+}
+
+@media (max-width: 560px) {
+  /* Herói da ficha compacto: menos arte, mais conteúdo à mostra */
+  .brawler-hero { padding-block: var(--sp-5) 0; }
+  .brawler-hero__inner {
+    gap: var(--sp-3);
+    padding: var(--sp-4);
+    padding-top: var(--sp-7);
+    border-width: 3px;
+    border-radius: var(--radius-lg);
+  }
+  .brawler-hero__art { width: 170px; height: 170px; }
+  .brawler-hero__meta h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); }
+  .brawler-layout { gap: var(--sp-4); margin-bottom: var(--sp-5); }
+  .catalog-hero { padding-block: var(--sp-5) var(--sp-3); }
+}
+
+@media (max-width: 400px) {
+  /* Acessórios e rodapé mais enxutos para caber em telas estreitas */
+  .accessory { padding: var(--sp-2); gap: var(--sp-2); }
+  .accessory__icon { width: 40px; height: 40px; }
+  .accessory__name { font-size: var(--fs-xs); }
+  .brawler-hero__art { width: 148px; height: 148px; }
+  .breadcrumb { font-size: var(--fs-xs); }
+  .brawler-foot { flex-direction: column; align-items: stretch; text-align: center; }
 }
