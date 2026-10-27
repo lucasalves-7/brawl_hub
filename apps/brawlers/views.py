@@ -2,12 +2,14 @@ from django.http import Http404
 from django.shortcuts import render
 
 from services import brawlers as catalog
+from services import rankings as rank_svc
 from services.brawler_art import (
     brawler_avatar,
     brawler_image,
     brawler_model_image,
     gadget_image,
     gear_image,
+    player_icon_image,
     star_power_image,
 )
 from services.supercell_api import SupercellAPIError
@@ -66,8 +68,27 @@ def brawler_detail(request, brawler_id: int):
 
     _attach_images(b)
 
+    # "Top mundial com este Brawler" (Fase 6) — degrada em silêncio se falhar.
+    top: list[dict] = []
+    country = request.GET.get("pais", "global")
+    if not rank_svc.is_valid_country(country):
+        country = "global"
+    try:
+        top = rank_svc.brawler_rankings(b["id"], country)
+        for p in top:
+            p["icon_image"] = player_icon_image(p["icon_id"])
+    except SupercellAPIError:
+        top = []
+
     return render(
         request,
         "brawlers/detail.html",
-        {"b": b, "has_hypercharge": bool(b["hypercharges"])},
+        {
+            "b": b,
+            "has_hypercharge": bool(b["hypercharges"]),
+            "top_players": top,
+            "top_country": country,
+            "top_country_label": rank_svc.country_label(country),
+            "countries": rank_svc.COUNTRIES,
+        },
     )

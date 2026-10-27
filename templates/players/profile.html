@@ -45,8 +45,8 @@
         <div class="player-card__name">{{ player.name }}</div>
         <div class="player-card__tags">
           <span class="chip">{{ player.tag }}</span>
-          {% if player.club_name %}
-            <a class="chip" href="#" data-soon="Clubes">
+          {% if player.club_name and player.club_tag %}
+            <a class="chip" href="{% url 'rankings:club' player.club_tag|slice:'1:' %}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M21 20v-2a4 4 0 0 0-3-3.87"/></svg>
               {{ player.club_name }}
             </a>

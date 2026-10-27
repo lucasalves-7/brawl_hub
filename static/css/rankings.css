@@ -1,0 +1,265 @@
+/* =============================================================================
+   BRAWL HUB — Rankings e Clubes (Fase 6)
+   ========================================================================== */
+
+.rank-hero {
+  padding-block: var(--sp-6) var(--sp-4);
+}
+
+/* --------------------------------- Abas --------------------------------- */
+.rank-tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+}
+
+.rank-tab {
+  padding: 0.55rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-decoration: none;
+  background: var(--surface-500);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.rank-tab:hover { background: var(--surface-400); color: var(--text); }
+
+.rank-tab.is-active {
+  background: var(--yellow);
+  color: var(--on-yellow);
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 3px 0 var(--yellow-shadow);
+}
+
+/* --------------------------- Seletor de região -------------------------- */
+.rank-region {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.rank-region .input {
+  width: auto;
+  min-width: 220px;
+}
+
+/* ------------------------------ Status/paginação ------------------------ */
+.rank-status {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: var(--sp-3);
+}
+
+/* ------------------------------ Lista de ranking ------------------------ */
+.rank-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  counter-reset: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 56px 48px 1fr auto auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--bg-700);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s var(--ease-pop);
+}
+
+.rank-row:hover {
+  border-color: var(--yellow);
+  transform: translateX(4px);
+}
+
+/* Posição no pódio */
+.rank-pos {
+  justify-self: center;
+  min-width: 40px;
+  padding: 0.2rem 0.4rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  text-align: center;
+  color: var(--text-soft);
+  background: var(--surface-500);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+
+.rank-pos--1 { color: var(--on-yellow); background: var(--yellow); border-color: rgba(0,0,0,.3); box-shadow: 0 2px 0 var(--yellow-shadow); }
+.rank-pos--2 { color: #0b1733; background: #c9d3e6; border-color: rgba(0,0,0,.3); }
+.rank-pos--3 { color: #fff; background: var(--orange); border-color: rgba(0,0,0,.3); box-shadow: 0 2px 0 rgba(180,90,0,.5); }
+
+/* Avatar/ícone */
+.rank-avatar {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-800);
+  border: 2px solid var(--line-strong);
+  border-radius: 50%;
+  overflow: hidden;
+  flex: none;
+}
+
+.rank-avatar--club { border-radius: var(--radius-sm); }
+
+.rank-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nome + subtítulo */
+.rank-main {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.rank-name {
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rank-sub { font-size: var(--fs-xs); }
+
+.rank-trophies { font-size: var(--fs-md); white-space: nowrap; }
+
+/* Cargo do membro */
+.rank-role {
+  padding: 0.15rem 0.7rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.rank-role--president { background: rgba(255,206,40,.16); color: var(--yellow); border-color: rgba(255,206,40,.45); }
+.rank-role--vicePresident { background: rgba(144,97,249,.18); color: var(--purple); border-color: rgba(144,97,249,.45); }
+.rank-role--senior { background: rgba(62,200,240,.16); color: var(--sky); border-color: rgba(62,200,240,.4); }
+.rank-role--member { background: rgba(255,255,255,.06); color: var(--text-muted); border-color: var(--line-strong); }
+
+/* ------------------------------ Página do clube ------------------------- */
+.club-hero {
+  padding-block: var(--sp-6) 0;
+}
+
+.club-hero .breadcrumb {
+  position: static;
+  margin-bottom: var(--sp-4);
+}
+
+.club-card {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-5) var(--sp-6);
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(255, 206, 40, 0.14) 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-700) 0%, var(--bg-800) 100%);
+  border: 4px solid var(--line-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-pop);
+}
+
+.club-card__badge {
+  flex: 0 0 auto;
+  width: 104px;
+  height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-900);
+  border: 3px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.club-card__badge img { width: 100%; height: 100%; object-fit: cover; }
+
+.club-card__meta { flex: 1 1 auto; min-width: 0; }
+
+.club-card__meta h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  margin-bottom: var(--sp-3);
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.club-card__desc {
+  margin-top: var(--sp-3);
+  color: var(--text-soft);
+  font-size: var(--fs-sm);
+  max-width: 60ch;
+}
+
+.club-card__stats {
+  display: flex;
+  gap: var(--sp-5);
+  flex: none;
+}
+
+.club-stat { text-align: center; }
+
+.club-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  line-height: 1;
+}
+
+.club-stat__label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ----------------------------- Responsivo ------------------------------- */
+@media (max-width: 720px) {
+  .rank-row {
+    grid-template-columns: 44px 44px 1fr auto;
+    grid-template-areas:
+      "pos avatar main trophies"
+      "pos avatar role trophies";
+    row-gap: var(--sp-1);
+  }
+  .rank-pos { grid-area: pos; }
+  .rank-avatar { grid-area: avatar; width: 44px; height: 44px; }
+  .rank-main { grid-area: main; }
+  .rank-role { grid-area: role; justify-self: start; }
+  .rank-trophies { grid-area: trophies; }
+
+  .club-card { flex-direction: column; text-align: center; }
+  .club-card__meta .chip-row { justify-content: center; }
+  .club-card__desc { margin-inline: auto; }
+}

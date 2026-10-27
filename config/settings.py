@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.players",
     "apps.brawlers",
+    "apps.rankings",
 ]
 
 MIDDLEWARE = [

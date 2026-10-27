@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ club.name }} — Brawl Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/rankings.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if error %}
+<section class="section">
+  <div class="container" style="max-width: 640px;">
+    <div class="card card--accent" style="text-align:center; padding: var(--sp-7) var(--sp-5);">
+      <h1 style="font-size: var(--fs-2xl); margin-bottom: var(--sp-3);">{{ error.title }}</h1>
+      <p class="card__text">{{ error.message }}</p>
+      <p style="margin-top: var(--sp-4);"><a href="{% url 'rankings:rankings' %}?aba=clubes">← Voltar ao ranking de clubes</a></p>
+    </div>
+  </div>
+</section>
+
+{% else %}
+
+<section class="club-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Trilha de navegação">
+      <a href="{% url 'core:home' %}">Início</a>
+      <span aria-hidden="true">/</span>
+      <a href="{% url 'rankings:rankings' %}?aba=clubes">Clubes</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ club.name }}</span>
+    </nav>
+
+    <div class="club-card">
+      <div class="club-card__badge">
+        {% if club.badge_image %}
+          <img src="{{ club.badge_image }}" alt="Escudo de {{ club.name }}"
+               onerror="this.style.display='none'">
+        {% endif %}
+      </div>
+
+      <div class="club-card__meta">
+        <h1>{{ club.name }}</h1>
+        <div class="chip-row">
+          <span class="chip">{{ club.tag }}</span>
+          <span class="tag tag--sky">{{ club.type_label }}</span>
+          <span class="tag tag--muted">{{ club.member_count }}/30 membros</span>
+        </div>
+        {% if club.description %}
+          <p class="club-card__desc">{{ club.description }}</p>
+        {% endif %}
+      </div>
+
+      <div class="club-card__stats">
+        <div class="club-stat">
+          <span class="club-stat__value text-yellow">{{ club.trophies }}</span>
+          <span class="club-stat__label">Troféus</span>
+        </div>
+        <div class="club-stat">
+          <span class="club-stat__value">{{ club.required_trophies }}</span>
+          <span class="club-stat__label">Exigência</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: var(--sp-5);">
+  <div class="container">
+    <div class="brawlers-head">
+      <h2>Membros</h2>
+      <span class="tag tag--muted">{{ club.member_count }} no clube</span>
+    </div>
+
+    <p class="rank-status" id="rank-status"></p>
+
+    <ol class="rank-list" id="rank-list">
+      {% for m in club.members %}
+        <li class="rank-row" data-href="{% url 'players:profile' m.tag|slice:'1:' %}">
+          <span class="rank-pos rank-pos--{{ forloop.counter }}">{{ forloop.counter }}</span>
+          <span class="rank-avatar">
+            {% if m.icon_image %}
+              <img src="{{ m.icon_image }}" alt="" loading="lazy"
+                   onerror="this.style.display='none'">
+            {% endif %}
+          </span>
+          <span class="rank-main">
+            <strong class="rank-name">{{ m.name }}</strong>
+            <span class="rank-sub text-muted">{{ m.tag }}</span>
+          </span>
+          <span class="rank-role rank-role--{{ m.role }}">{{ m.role_label }}</span>
+          <span class="trophy-pill rank-trophies">
+            <img src="{% static 'img/trophy.svg' %}" alt="" width="18" height="18">
+            {{ m.trophies }}
+          </span>
+        </li>
+      {% empty %}
+        <li class="empty-filter">Este clube não lista membros.</li>
+      {% endfor %}
+    </ol>
+
+    <div class="pager" id="rank-pager"></div>
+
+    <div class="brawler-foot" style="margin-top: var(--sp-5);">
+      <a class="btn btn--ghost" href="{% url 'rankings:rankings' %}?aba=clubes">← Voltar ao ranking</a>
+      <p class="text-muted" style="font-size: var(--fs-xs); max-width: 60ch;">
+        Dados fornecidos pela API oficial do Brawl Stars. Projeto independente,
+        não afiliado à Supercell.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+{% if not error %}
+<script src="{% static 'js/rankings.js' %}" defer></script>
+{% endif %}
+{% endblock %}

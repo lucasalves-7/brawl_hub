@@ -124,6 +124,18 @@ class SupercellClient:
         return data if isinstance(data, list) else []
 
     def rankings(self, kind: str = "players", country: str = "global") -> list[dict]:
-        """Rankings oficiais. `kind` em {players, clubs, brawlers}."""
+        """Rankings oficiais. `kind` em {players, clubs}."""
         data = self._get(f"rankings/{country}/{kind}")
+        return data.get("items", []) if isinstance(data, dict) else []
+
+    def brawler_rankings(
+        self, brawler_id: int, country: str = "global"
+    ) -> list[dict]:
+        """
+        Top de jogadores por um Brawler específico.
+
+        Obs.: a lista de Brawlers (`/rankings/.../brawlers`) NÃO existe (404);
+        só há o ranking de jogadores DADO um id de Brawler.
+        """
+        data = self._get(f"rankings/{country}/brawlers/{brawler_id}")
         return data.get("items", []) if isinstance(data, dict) else []

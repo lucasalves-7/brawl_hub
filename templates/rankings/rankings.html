@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Rankings — Brawl Hub{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/rankings.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="section rank-hero">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <span class="tag tag--yellow"><span class="tag__dot"></span> Rankings oficiais</span>
+      <h1>Os melhores do <span class="accent">{{ country_label }}</span></h1>
+      <p>Classificação oficial da API do Brawl Stars para a região escolhida.</p>
+    </div>
+
+    {# Abas: recarregam a página com ?aba= (funciona sem JS) #}
+    <div class="rank-tabs" role="tablist" aria-label="Tipo de ranking">
+      <a class="rank-tab {% if kind == 'jogadores' %}is-active{% endif %}"
+         href="?aba=jogadores&amp;pais={{ country }}"
+         role="tab" aria-selected="{% if kind == 'jogadores' %}true{% endif %}">
+        Jogadores
+      </a>
+      <a class="rank-tab {% if kind == 'clubes' %}is-active{% endif %}"
+         href="?aba=clubes&amp;pais={{ country }}"
+         role="tab" aria-selected="{% if kind == 'clubes' %}true{% endif %}">
+        Clubes
+      </a>
+    </div>
+
+    {# Seletor de região (lista curada — endpoint locations é 404) #}
+    <form class="rank-region" method="get" id="region-form">
+      <input type="hidden" name="aba" value="{{ kind }}">
+      <label class="field__label" for="pais">Região</label>
+      <select class="input" id="pais" name="pais">
+        {% for code, label in countries %}
+          <option value="{{ code }}" {% if code == country %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    {% if error %}
+      <div class="card card--accent" style="text-align:center; padding: var(--sp-7) var(--sp-5);">
+        <h2 style="font-size: var(--fs-xl); margin-bottom: var(--sp-3);">{{ error.title }}</h2>
+        <p class="card__text">{{ error.message }}</p>
+      </div>
+
+    {% else %}
+
+      {# ------------------------------- JOGADORES -------------------------- #}
+      {% if kind == 'jogadores' %}
+        <p class="rank-status" id="rank-status"></p>
+        <ol class="rank-list" id="rank-list">
+          {% for p in players %}
+            <li class="rank-row" data-href="{% url 'players:profile' p.tag|slice:'1:' %}">
+              <span class="rank-pos rank-pos--{{ forloop.counter }}">{{ p.rank|default:forloop.counter }}</span>
+              <span class="rank-avatar">
+                {% if p.icon_image %}
+                  <img src="{{ p.icon_image }}" alt="" loading="lazy"
+                       onerror="this.style.display='none'">
+                {% endif %}
+              </span>
+              <span class="rank-main">
+                <strong class="rank-name">{{ p.name }}</strong>
+                <span class="rank-sub text-muted">{{ p.tag }}{% if p.club_name %} · {{ p.club_name }}{% endif %}</span>
+              </span>
+              <span class="trophy-pill rank-trophies">
+                <img src="{% static 'img/trophy.svg' %}" alt="" width="18" height="18">
+                {{ p.trophies }}
+              </span>
+            </li>
+          {% empty %}
+            <li class="empty-filter">Sem dados de jogadores para esta região.</li>
+          {% endfor %}
+        </ol>
+
+      {# -------------------------------- CLUBES ---------------------------- #}
+      {% else %}
+        <p class="rank-status" id="rank-status"></p>
+        <ol class="rank-list" id="rank-list">
+          {% for c in clubs %}
+            <li class="rank-row" data-href="{% url 'rankings:club' c.tag|slice:'1:' %}">
+              <span class="rank-pos rank-pos--{{ forloop.counter }}">{{ c.rank|default:forloop.counter }}</span>
+              <span class="rank-avatar rank-avatar--club">
+                {% if c.badge_image %}
+                  <img src="{{ c.badge_image }}" alt="" loading="lazy"
+                       onerror="this.style.display='none'">
+                {% endif %}
+              </span>
+              <span class="rank-main">
+                <strong class="rank-name">{{ c.name }}</strong>
+                <span class="rank-sub text-muted">{{ c.member_count }} membros · {{ c.tag }}</span>
+              </span>
+              <span class="trophy-pill rank-trophies">
+                <img src="{% static 'img/trophy.svg' %}" alt="" width="18" height="18">
+                {{ c.trophies }}
+              </span>
+            </li>
+          {% empty %}
+            <li class="empty-filter">Sem dados de clubes para esta região.</li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+
+      {# Paginação no cliente (25 por página) #}
+      <div class="pager" id="rank-pager"></div>
+
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% if not error %}
+<script src="{% static 'js/rankings.js' %}" defer></script>
+{% endif %}
+{% endblock %}
