@@ -13,6 +13,7 @@ reduzindo muito as consultas à API.
 from __future__ import annotations
 
 from services import cache as hub_cache
+from services.brawler_localization import translate_kit_name
 from services.supercell_api import SupercellClient
 
 
@@ -22,7 +23,12 @@ def _clean_accessories(items: list[dict] | None) -> list[dict]:
     for it in items or []:
         if not isinstance(it, dict):
             continue
-        entry = {"id": it.get("id"), "name": (it.get("name") or "").title()}
+        entry = {
+            "id": it.get("id"),
+            "name": (it.get("name") or "").title(),
+            "raw_name": it.get("name", ""),
+        }
+        entry["name"] = translate_kit_name(entry["name"])
         if it.get("level") is not None:
             entry["level"] = it["level"]
         out.append(entry)
@@ -89,6 +95,5 @@ def brawler_by_id(brawler_id: int) -> dict | None:
         if b["id"] == brawler_id:
             return b
     return None
-
 
 
