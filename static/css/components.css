@@ -404,28 +404,6 @@
   color: var(--sky);
 }
 
-/* ============================ AVISO ===================================== */
-/* Marca dados fictícios — transparência é obrigatória (seção 10) */
-.demo-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  padding: 0.35rem 0.9rem;
-  font-weight: 800;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--orange);
-  background: rgba(255, 159, 28, 0.12);
-  border: 2px dashed rgba(255, 159, 28, 0.55);
-  border-radius: var(--radius-pill);
-}
-
-.demo-banner svg {
-  width: 1.1em;
-  height: 1.1em;
-}
-
 /* ============================ AVISO FLUTUANTE =========================== */
 .toast {
   position: fixed;
