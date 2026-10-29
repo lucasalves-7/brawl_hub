@@ -97,7 +97,9 @@
 .hero__art {
   position: relative;
   aspect-ratio: 1 / 1;
+  width: 100%;
   max-width: 460px;
+  min-width: 0;
   margin-inline: auto;
   isolation: isolate;
 }
