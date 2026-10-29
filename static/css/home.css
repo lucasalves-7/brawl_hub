@@ -118,7 +118,6 @@
    height: 100%;
    object-fit: contain;
    border-radius: var(--radius-lg);
-   border: 4px solid rgba(255, 255, 255, 0.12);
 }
 
 .hero__art .b1 { width: 44%; top: 4%; left: 4%; animation-delay: 0s; z-index: 3; }
