@@ -56,6 +56,8 @@
 }
 
 .search .input {
+  flex: 1 1 auto;
+  min-width: 0;
   border: none;
   background: transparent;
   padding: 0.5rem 0.7rem;
