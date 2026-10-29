@@ -1,6 +1,6 @@
 /* =============================================================================
    BRAWL HUB — Rankings (Fase 6)
-   Paginação no cliente (25 por página) + clique nas linhas navega para o
+   Paginação no cliente (10 por página) + clique nas linhas navega para o
    destino (perfil do jogador ou página do clube). Sem chamadas extra à API.
    ========================================================================== */
 (function () {
@@ -13,7 +13,7 @@
   var status = document.getElementById("rank-status");
   var rows = Array.prototype.slice.call(list.querySelectorAll(".rank-row"));
 
-  var PER_PAGE = 25;
+  var PER_PAGE = 10;
   var page = 1;
   var total = rows.length;
 
