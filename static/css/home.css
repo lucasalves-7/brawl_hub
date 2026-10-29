@@ -98,7 +98,7 @@
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
-  max-width: 420px;
+  max-width: 390px;
   min-width: 0;
   margin-inline: auto;
   isolation: isolate;
@@ -130,7 +130,7 @@
   position: absolute;
   top: 47%;
   left: 50%;
-  width: 100px;
+  width: 92px;
   z-index: 5;
   transform: translate(-50%, -50%);
   animation: trophy-float 4s ease-in-out infinite;
