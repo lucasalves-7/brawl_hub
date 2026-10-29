@@ -181,52 +181,6 @@
   object-fit: contain;
 }
 
-.hero__progress-card {
-  position: absolute;
-  right: 2%;
-  bottom: 12%;
-  z-index: 6;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  padding: 0.55rem 0.75rem;
-  color: var(--text);
-  background: var(--surface-600);
-  border: 3px solid var(--yellow);
-  border-radius: var(--radius);
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.28);
-  transform: rotate(4deg);
-  animation: card-in 0.7s var(--ease-pop) both 0.2s;
-}
-
-.hero__progress-card img { width: 30px; height: 30px; object-fit: contain; }
-.hero__progress-card span { display: flex; flex-direction: column; line-height: 1.05; }
-.hero__progress-card strong { color: var(--yellow); font-family: var(--font-display); font-size: var(--fs-sm); }
-.hero__progress-card small { color: var(--text-muted); font-size: var(--fs-xs); }
-
-.hero__star {
-  position: absolute;
-  z-index: 6;
-  font-family: var(--font-display);
-  color: var(--yellow);
-  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
-  animation: star-drift 3.4s ease-in-out infinite;
-}
-.hero__star--one { top: 19%; left: 43%; font-size: 2rem; }
-.hero__star--two { top: 34%; right: 7%; color: var(--sky); font-size: 1.35rem; animation-delay: .8s; }
-.hero__star--three { bottom: 23%; left: 5%; color: var(--purple); font-size: 1.45rem; animation-delay: 1.4s; }
-
-.hero__burst {
-  position: absolute;
-  top: 43%;
-  left: 50%;
-  z-index: 4;
-  color: var(--yellow);
-  font: 900 2.5rem/1 var(--font-display);
-  transform: translate(-50%, -50%) rotate(15deg);
-  opacity: .7;
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
@@ -242,15 +196,6 @@
   50% { opacity: 1; transform: rotate(-8deg) scale(1.02); }
 }
 
-@keyframes star-drift {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-8px) rotate(12deg); }
-}
-
-@keyframes card-in {
-  from { opacity: 0; transform: translateY(10px) rotate(4deg); }
-  to { opacity: 1; transform: translateY(0) rotate(4deg); }
-}
 
 @media (max-width: 768px) {
   /* Mobile: remove a arte e sua célula por completo, sem espaço residual. */
