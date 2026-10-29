@@ -6,6 +6,16 @@
 (function () {
   "use strict";
 
+  // A região é um filtro servido pelo backend. Envia automaticamente ao
+  // trocar o select, preservando a aba atual pelo campo hidden "aba".
+  var regionForm = document.getElementById("region-form");
+  var regionSelect = document.getElementById("pais");
+  if (regionForm && regionSelect) {
+    regionSelect.addEventListener("change", function () {
+      regionForm.submit();
+    });
+  }
+
   var list = document.getElementById("rank-list");
   if (!list) return;
 
