@@ -1,6 +1,7 @@
 /* =============================================================================
    BRAWL HUB — Interações da interface
    Menu mobile, validação da tag de jogador e avisos flutuantes.
+   Histórico local das pesquisas recentes.
    ========================================================================== */
 (function () {
   "use strict";
@@ -82,9 +83,119 @@
     return true;
   }
 
+  /* ----------------------------------------- Histórico de pesquisas ------- */
+  var HISTORY_KEY = "brawlhub.searchHistory";
+  var HISTORY_LIMIT = 5;
+
+  function readHistory() {
+    try {
+      var value = JSON.parse(window.localStorage.getItem(HISTORY_KEY) || "[]");
+      return Array.isArray(value) ? value.filter(function (item) {
+        return item && typeof item.tag === "string";
+      }).slice(0, HISTORY_LIMIT) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeHistory(items) {
+    try {
+      window.localStorage.setItem(HISTORY_KEY, JSON.stringify(items.slice(0, HISTORY_LIMIT)));
+    } catch (e) { /* armazenamento pode estar bloqueado pelo navegador */ }
+  }
+
+  function saveHistoryTag(tag, name) {
+    var items = readHistory().filter(function (item) { return item.tag !== tag; });
+    items.unshift({ tag: tag, name: name || null });
+    writeHistory(items);
+  }
+
+  function syncProfileHistory() {
+    var profile = document.querySelector("[data-player-tag]");
+    if (!profile) return;
+    var tag = normalizeTag(profile.getAttribute("data-player-tag"));
+    var name = profile.getAttribute("data-player-name") || "";
+    if (!isValidTag(tag) || !name) return;
+    var items = readHistory();
+    var found = false;
+    items = items.map(function (item) {
+      if (item.tag !== tag) return item;
+      found = true;
+      return { tag: item.tag, name: name };
+    });
+    if (found) writeHistory(items);
+  }
+
+  syncProfileHistory();
+
   var form = document.getElementById("busca");
   var input = document.getElementById("tag-input");
   var hint = document.getElementById("search-hint");
+  var historyBox = document.getElementById("search-history");
+
+  function closeHistory() {
+    if (!historyBox || !input) return;
+    historyBox.hidden = true;
+    historyBox.classList.remove("is-open");
+    input.setAttribute("aria-expanded", "false");
+  }
+
+  function openHistory() {
+    if (!historyBox || !input) return;
+    var items = readHistory();
+    historyBox.innerHTML = "";
+    if (!items.length) { closeHistory(); return; }
+
+    items.forEach(function (item, index) {
+      var row = document.createElement("div");
+      row.className = "search-history__item";
+      row.setAttribute("role", "option");
+
+      var choose = document.createElement("button");
+      choose.type = "button";
+      choose.className = "search-history__choose";
+      choose.innerHTML = "<strong></strong><span></span>";
+      choose.querySelector("strong").textContent = item.name || "Jogador pesquisado";
+      choose.querySelector("span").textContent = item.tag;
+      choose.addEventListener("click", function () {
+        input.value = item.tag;
+        closeHistory();
+        input.focus();
+      });
+
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "search-history__remove";
+      remove.setAttribute("aria-label", "Remover " + item.tag + " do histórico");
+      remove.textContent = "×";
+      remove.addEventListener("click", function () {
+        var current = readHistory();
+        current.splice(index, 1);
+        writeHistory(current);
+        openHistory();
+      });
+
+      row.appendChild(choose);
+      row.appendChild(remove);
+      historyBox.appendChild(row);
+    });
+    historyBox.hidden = false;
+    historyBox.classList.remove("is-open");
+    void historyBox.offsetWidth;
+    historyBox.classList.add("is-open");
+    input.setAttribute("aria-expanded", "true");
+  }
+
+  if (input && historyBox) {
+    input.addEventListener("focus", openHistory);
+    input.addEventListener("click", openHistory);
+    document.addEventListener("click", function (e) {
+      if (!historyBox.contains(e.target) && e.target !== input) closeHistory();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeHistory();
+    });
+  }
 
   function setHint(state, html) {
     if (!hint) return;
@@ -117,6 +228,7 @@
         return;
       }
 
+      saveHistoryTag(tag, null);
       setHint("ok", "Tag reconhecida! Abrindo o painel de <strong>" + tag + "</strong>…");
       // A navegação real será feita pelo backend; aqui garantimos o fluxo.
       window.location.href = "/perfil/" + encodeURIComponent(tag.slice(1)) + "/";

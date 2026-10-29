@@ -22,25 +22,31 @@
       </p>
 
       {# ---- Campo de busca por tag ---- #}
-      <form class="search" id="busca" autocomplete="off" novalidate>
-        <label class="visually-hidden" for="tag-input">Tag do jogador</label>
-        <input
-          class="input input--tag"
-          id="tag-input"
-          name="tag"
-          type="text"
-          inputmode="text"
-          placeholder="Digite a tag do jogador"
-          maxlength="14"
-          aria-describedby="search-hint"
-        >
-        <button class="btn btn--lg" type="submit">
-          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
-          </svg>
-          Analisar jogador
-        </button>
-      </form>
+      <div class="search-shell">
+        <form class="search" id="busca" autocomplete="off" novalidate>
+          <label class="visually-hidden" for="tag-input">Tag do jogador</label>
+          <input
+            class="input input--tag"
+            id="tag-input"
+            name="tag"
+            type="text"
+            inputmode="text"
+            placeholder="Digite a tag do jogador"
+            maxlength="14"
+            aria-describedby="search-hint"
+            aria-controls="search-history"
+            aria-expanded="false"
+          >
+          <button class="btn btn--lg" type="submit">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            Analisar jogador
+          </button>
+        </form>
+        <div class="search-history" id="search-history" role="listbox"
+             aria-label="Pesquisas recentes" hidden></div>
+      </div>
 
       <p class="search__hint" id="search-hint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">

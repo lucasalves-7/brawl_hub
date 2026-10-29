@@ -32,7 +32,7 @@
 {% else %}
 
 {# ---- Seção A · Cartão do jogador ---- #}
-<section class="profile-hero">
+<section class="profile-hero" data-player-tag="{{ player.tag }}" data-player-name="{{ player.name }}">
   <div class="container">
     <div class="player-card player-card--full">
       <img class="player-card__art"
