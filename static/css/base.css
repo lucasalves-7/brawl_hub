@@ -275,10 +275,6 @@ input {
   color: var(--yellow);
 }
 
-.header__cta {
-  margin-inline-start: var(--sp-3);
-}
-
 /* ------------------------------------------------------ Menu mobile ----- */
 .menu-toggle {
   display: none;
@@ -306,8 +302,7 @@ input {
 }
 
 @media (max-width: 900px) {
-  .nav,
-  .header__cta {
+  .nav {
     display: none;
   }
 
@@ -342,10 +337,6 @@ input {
     display: none;
   }
 
-  .nav--open .header__cta {
-    display: flex;
-    margin: var(--sp-2) 0 0;
-  }
 }
 
 @keyframes menu-drop {
