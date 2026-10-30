@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from services import cache as hub_cache
 from services.brawler_localization import translate_kit_name
+from services.brawler_rarity import rarity_for
 from services.supercell_api import SupercellClient
 
 
@@ -41,6 +42,7 @@ def normalize_catalog_brawler(raw: dict) -> dict:
     b = {
         "id": raw.get("id"),
         "name": name,
+        "rarity": rarity_for(name),
         "raw_name": raw.get("name", ""),
         "star_powers": _clean_accessories(raw.get("starPowers")),
         "hypercharges": _clean_accessories(raw.get("hyperCharges")),
@@ -95,5 +97,4 @@ def brawler_by_id(brawler_id: int) -> dict | None:
         if b["id"] == brawler_id:
             return b
     return None
-
 

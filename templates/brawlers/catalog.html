@@ -28,17 +28,26 @@
     {% else %}
 
       {# Busca no cliente sobre os dados já carregados #}
-      <div class="filters" style="grid-template-columns: 1fr;">
-        <input class="input" id="cat-search" type="search" placeholder="Buscar Brawler por nome…"
-               aria-label="Buscar Brawler por nome">
-      </div>
+       <div class="filters" style="grid-template-columns: 1fr;">
+         <input class="input" id="cat-search" type="search" placeholder="Buscar Brawler por nome…"
+                aria-label="Buscar Brawler por nome">
+       </div>
+       <div class="rarity-filters" role="group" aria-label="Filtrar por raridade">
+         <button class="rarity-filter is-active" type="button" data-rarity="Todos">Todos</button>
+         <button class="rarity-filter" type="button" data-rarity="Lendário">Lendários</button>
+         <button class="rarity-filter" type="button" data-rarity="Mítico">Míticos</button>
+         <button class="rarity-filter" type="button" data-rarity="Épico">Épicos</button>
+         <button class="rarity-filter" type="button" data-rarity="Super-raro">Super-raros</button>
+         <button class="rarity-filter" type="button" data-rarity="Raro">Raros</button>
+       </div>
       <p class="filter-count" id="cat-count">Mostrando {{ brawler_count }} de {{ brawler_count }}</p>
 
       <div class="brawler-grid" id="catalog-grid">
         {% for b in brawlers %}
           <a class="brawler-card"
              href="{% url 'brawlers:detail' b.id %}"
-             data-name="{{ b.name|lower }}">
+             data-name="{{ b.name|lower }}"
+             data-rarity="{{ b.rarity }}">
             <div class="brawler-card__art">
               <img src="{{ b.image|default_if_none:b.avatar }}"
                    data-fallback="{{ b.avatar }}"
@@ -46,6 +55,7 @@
                    alt="Brawler {{ b.name }}" loading="lazy">
             </div>
             <h3 class="brawler-card__name">{{ b.name }}</h3>
+            <span class="brawler-card__rarity">{{ b.rarity }}</span>
           </a>
         {% empty %}
           <p class="card__text">Nenhum Brawler disponível no momento.</p>

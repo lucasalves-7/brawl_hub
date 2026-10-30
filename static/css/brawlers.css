@@ -6,6 +6,44 @@
   padding-block: var(--sp-6) var(--sp-4);
 }
 
+.rarity-filters {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+.rarity-filter {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-700);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: color .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.rarity-filter:hover,
+.rarity-filter:focus-visible,
+.rarity-filter.is-active {
+  color: var(--on-yellow);
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.brawler-card__rarity {
+  display: none;
+  color: var(--yellow);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  line-height: 1;
+}
+
 /* ------------------------------- Herói da ficha ------------------------- */
 .brawler-hero {
   padding-block: var(--sp-6) 0;
@@ -250,6 +288,43 @@
   .brawler-hero__meta h1 { font-size: clamp(1.75rem, 9vw, 2.5rem); }
   .brawler-layout { gap: var(--sp-4); margin-bottom: var(--sp-5); }
   .catalog-hero { padding-block: var(--sp-5) var(--sp-3); }
+}
+
+/* Catálogo no celular: lista densa, um Brawler por linha. */
+@media (max-width: 640px) {
+  .brawler-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .brawler-grid .brawler-card {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    align-items: center;
+    min-height: 62px;
+    gap: var(--sp-3);
+    padding: 0.4rem 0.6rem;
+    border-width: 2px;
+  }
+
+  .brawler-grid .brawler-card__art {
+    width: 46px;
+    height: 46px;
+    aspect-ratio: auto;
+    border-radius: var(--radius-sm);
+  }
+
+  .brawler-grid .brawler-card__name {
+    min-width: 0;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brawler-grid .brawler-card__rarity { display: block; text-align: right; }
+  .brawler-grid .brawler-card__sub { display: none; }
 }
 
 @media (max-width: 400px) {

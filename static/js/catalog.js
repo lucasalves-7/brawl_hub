@@ -12,6 +12,8 @@
   var cards = Array.prototype.slice.call(grid.querySelectorAll(".brawler-card"));
   var count = document.getElementById("cat-count");
   var empty = document.getElementById("cat-empty");
+  var rarityButtons = Array.prototype.slice.call(document.querySelectorAll(".rarity-filter"));
+  var selectedRarity = "Todos";
   var total = cards.length;
 
   // Pré-carrega o nome para filtrar sem reler o DOM
@@ -22,19 +24,28 @@
     var shown = 0;
 
     cards.forEach(function (c) {
-      var ok = !q || c._name.indexOf(q) !== -1;
+      var okName = !q || c._name.indexOf(q) !== -1;
+      var okRarity = selectedRarity === "Todos" || c.dataset.rarity === selectedRarity;
+      var ok = okName && okRarity;
       c.style.display = ok ? "" : "none";
       if (ok) shown++;
     });
 
     if (count) {
-      count.textContent = q
-        ? "Mostrando " + shown + " de " + total + " Brawlers"
-        : "Mostrando " + total + " de " + total + " Brawlers";
+      count.textContent = "Mostrando " + shown + " de " + total + " Brawlers";
     }
     if (empty) empty.hidden = shown !== 0;
   }
 
   search.addEventListener("input", apply);
+  rarityButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      selectedRarity = button.dataset.rarity || "Todos";
+      rarityButtons.forEach(function (item) {
+        item.classList.toggle("is-active", item === button);
+      });
+      apply();
+    });
+  });
   apply();
 })();
